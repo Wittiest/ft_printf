@@ -9,9 +9,11 @@
 /*   Updated: 2017/10/24 11:36:26 by dpearson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "ft_printf.h"
+
 int		main(void)
 {
-	ft_printf("%d %% %d %%");
+	ft_printf("test%% %c", 97);
 	return (1);
 }

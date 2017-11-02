@@ -1,71 +1,90 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpearson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/10/22 03:13:14 by dpearson          #+#    #+#             */
-/*   Updated: 2017/10/22 03:16:32 by dpearson         ###   ########.fr       */
+/*   Created: 2017/10/26 06:38:31 by dpearson          #+#    #+#             */
+/*   Updated: 2017/10/30 19:45:02 by dpearson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+#include <stdio.h>
 
-s_modifiers		*m_head;
+int		(*g_funcs[])(char **, va_list *, t_modifiers *) = {arg_putchar};
+char	g_conversion[15] = "cCsSpdDioOuUxX\0";
 
-void	add_token(s_modifiers *node)
+t_modifiers		*flag_list_init(void)
 {
-	s_modifiers *temp_head;
+	t_modifiers *flag_list;
 
-	temp_head = m_head;
-	while (temp_head->next)
-		temp_head = temp_head->next;
-	temp_head->next = node;
+	flag_list = malloc(sizeof(t_modifiers));
+	*flag_list = (t_modifiers){0, 0, 0, 0, 0, 0, 0, 0};
+	return (flag_list);
 }
 
-size_t	next_token(char *str)
+int				find_flags(va_list *args, char **fmt, t_modifiers *flag_list)
 {
-	size_t i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '%' && !(str[i + 1] && str[i + 1] == '%'))
-			return (i);	
-		i++;
-	}
-	return (0);
-}
-
-int		token_count(char *str)
-{
-	char *segment;
-	int count;
 	int i;
-	size_t next;
 
-	count = 0;
-	while (*str)
+	while (**fmt)
 	{
-		next = next_token(*str);
-		segment = ft_strndup(str, next); // string up to %
-		str+= next + 1;
-		count++;
+		i = -1;
+		while (g_conversion[++i])
+		{
+			if (g_conversion[i] == **fmt)
+			{
+				return(g_funcs[i](fmt, args, flag_list));
+				// return(arg_putchar(fmt, args, flag_list));
+			}
+		}
+		if (**fmt == '#')
+			(*flag_list).hash = 1;
+		else if (**fmt == '0') // FIX THIS because of precision / minwidth
+			(*flag_list).zero = 1;
+		else if (**fmt == '-')
+			(*flag_list).minus = 1;
+		else if (**fmt == '+')
+			(*flag_list).plus = 1;
+		else if (**fmt == ' ')
+			(*flag_list).space = 1;
+		else if (**fmt == 'h')
+			(*flag_list).flag = (*(*fmt + 1) && (*(*fmt + 1) == 'h')) ? HH_FLAG : H_FLAG;
+		else if (**fmt == 'l')
+			(*flag_list).flag = (*(*fmt + 1) && (*(*fmt + 1) == 'l')) ? LL_FLAG : L_FLAG;
+		else if (**fmt == 'j')
+			(*flag_list).flag = J_FLAG;
+		else if (**fmt == 'z')
+			(*flag_list).flag = Z_FLAG;
+		(*fmt)++;
 	}
+	return (-1);
 }
 
-void	ft_printf(char *format, ...)
+int				ft_printf(char *format, ...)
 {
-	va_list args;
-	int t_count;
+	va_list		args;
+	int			char_count;
 
-	t_count = token_count(format);
-	va_start (args, t_count);
-
-	// write until %
-	// check for modifiers until reaching a conversion char.
-	// check argument that matches.
-	// write
-	// write until next % or end
+	va_start(args, format);
+	char_count = 0;
+	while (*format)
+	{
+		if (*format == '%')
+		{
+			if (*(format + 1) && (*(format + 1) == '%') && (format += 2))
+				write(1, "%%", 1);
+			else
+				char_count += find_flags(&args, &format, flag_list_init());
+		}
+		else
+		{
+			char_count += write(1, format, 1);
+			format++;
+		}
+	}
+	va_end(args);
+	return (char_count);
 }
