@@ -31,20 +31,34 @@ int		arg_putchar(char **fmt, va_list *args, t_modifiers *flag_list)
 	}
 }
 
-// void	ft_putstr(char const *s)
+int		arg_putstr(char **fmt, va_list *args, t_modifiers *flag_list)
+{
+	int i;
+	char *s;
+
+	i = 0;
+	s = (char *)va_arg(*args, void *);
+	if ((*flag_list).flag == L_FLAG)
+		i = 0; // Put actual stuff here later.
+	while (s[i])
+	{
+		write(1, &s[i], 1);
+		i++;
+	}
+	(*fmt)+= i + 2;
+	return (i);
+}
+
+// static void	ft_putchar(char c)
 // {
-// 	if (s)
-// 	{
-// 		while (*s)
-// 		{
-// 			ft_putchar(*s);
-// 			s++;
-// 		}
-// 	}
+// 	write(1, &c, 1);
 // }
 
-// void	ft_putnbr(int n)
+// void	arg_putnbr(char **fmt, va_list *args, t_modifiers *flag_list)
 // {
+// 	int n;
+
+// 	n = va_arg(*args, int);
 // 	if (n == -2147483648)
 // 	{
 // 		ft_putchar('-');
