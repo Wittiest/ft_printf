@@ -40,5 +40,6 @@ typedef struct			s_modifiers
 int						ft_printf(char *format, ...);
 int						arg_putchar(char **fmt, va_list *args, t_modifiers *flag_list);
 int						arg_putstr(char **fmt, va_list *args, t_modifiers *flag_list);
+int						arg_ptr(char **fmt, va_list *args, t_modifiers *flag_list);
 
 #endif

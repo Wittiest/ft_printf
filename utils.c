@@ -13,6 +13,9 @@
 #include "ft_printf.h"
 #include <string.h>
 
+char	g_upp_hex[17] = "0123456789ABCDEF";
+char	g_low_hex[17] = "0123456789abcdef";
+
 int		arg_putchar(char **fmt, va_list *args, t_modifiers *flag_list)
 {
 	unsigned char	c;
@@ -46,6 +49,29 @@ int		arg_putstr(char **fmt, va_list *args, t_modifiers *flag_list)
 		i++;
 	}
 	(*fmt)+= i + 2;
+	return (i);
+}
+
+int print_hex(unsigned long long n)
+{
+	int i;
+
+	i = 0;
+	if (n > 0)
+		i = PrintRecursive(n / 16);
+	write(1, &g_low_hex[n % 16], 1);
+	return (1 + i);
+}
+
+int		arg_ptr(char **fmt, va_list *args, t_modifiers *flag_list)
+{
+	int i;
+	unsigned long long nbr;
+
+	flag_list = NULL; // fix later
+	nbr = (unsigned long long)va_arg(*args, void *);
+	i = print_hex(nbr);
+	(*fmt)+= i;
 	return (i);
 }
 
