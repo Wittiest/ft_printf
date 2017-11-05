@@ -58,7 +58,7 @@ int print_hex(unsigned long long n)
 
 	i = 0;
 	if (n > 0)
-		i = PrintRecursive(n / 16);
+		i = print_hex(n / 16);
 	write(1, &g_low_hex[n % 16], 1);
 	return (1 + i);
 }
