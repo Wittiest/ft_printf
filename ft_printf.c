@@ -35,8 +35,8 @@ int				find_flags(va_list *args, const char **fmt, t_modifiers *flag_list)
 		while (g_conversion[++i])
 			if (g_conversion[i] == **fmt)
 				return(g_funcs[i](args, flag_list));
-		if (**fmt >= '0' && **fmt <= '9' && !(*flag_list).minwidth)
-			(*flag_list).minwidth = arg_ft_atoi(fmt);			
+		if (**fmt >= '0' && **fmt <= '9' && !(*flag_list).min_width)
+			(*flag_list).min_width = arg_ft_atoi(fmt);			
 		else if (**fmt == '#')
 			(*flag_list).hash = 1;
 		else if (**fmt == '0')
