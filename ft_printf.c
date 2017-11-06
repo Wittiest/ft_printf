@@ -47,9 +47,9 @@ int				find_flags(va_list *args, const char **fmt, t_modifiers *flag_list)
 			(*flag_list).plus = 1;
 		else if (**fmt == ' ')
 			(*flag_list).space = 1;
-		else if (**fmt == 'h' && !((*flag_list).flag))
+		else if (**fmt == 'h' && (!((*flag_list).flag)))
 			(*flag_list).flag = (*(*fmt + 1) && (*(*fmt + 1) == 'h')) ? HH_FLAG : H_FLAG;
-		else if (**fmt == 'l' !((*flag_list).flag))
+		else if (**fmt == 'l' && (!((*flag_list).flag)))
 			(*flag_list).flag = (*(*fmt + 1) && (*(*fmt + 1) == 'l')) ? LL_FLAG : L_FLAG;
 		else if (**fmt == 'j')
 			(*flag_list).flag = J_FLAG;

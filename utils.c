@@ -138,7 +138,7 @@ int		arg_dec(va_list *args, t_modifiers *flag_list)
 	return (ft_putnbr(nbr));
 }
 
-int		arg_ft_atoi(char **str)
+int		arg_ft_atoi(const char **str)
 {
 	int		neg;
 	int		nbr;
