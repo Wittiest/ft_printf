@@ -94,36 +94,49 @@ int		arg_ptr(va_list *args, t_modifiers *flag_list)
 	return (print_hex(nbr, 1));
 }
 
-// static void	ft_putchar(char c)
-// {
-// 	write(1, &c, 1);
-// }
+int		ft_putchar(char c)
+{
+	return(write(1, &c, 1));
+}
 
-// void	arg_putnbr(char **fmt, va_list *args, t_modifiers *flag_list)
-// {
-// 	int n;
+int		ft_putnbr(int nb)
+{
+	int i;
 
-// 	n = va_arg(*args, int);
-// 	if (n == -2147483648)
-// 	{
-// 		ft_putchar('-');
-// 		ft_putchar('2');
-// 		ft_putnbr(147483648);
-// 		return ;
-// 	}
-// 	if (n < 0)
-// 	{
-// 		ft_putchar('-');
-// 		n = -n;
-// 	}
-// 	if (n >= 10)
-// 	{
-// 		ft_putnbr(n / 10);
-// 		ft_putnbr(n % 10);
-// 	}
-// 	else
-// 		ft_putchar(n + '0');
-// }
+	i = 0;
+	if (nb == -2147483648)
+	{
+		ft_putchar('-');
+		ft_putchar('2');
+		return(2 + ft_putnbr(147483648));
+	}
+	if (nb < 0)
+	{
+		ft_putchar('-');
+		i++;
+		nb = -nb;
+	}
+	if (nb >= 10)
+	{
+		i+= ft_putnbr(nb / 10);
+		i+= ft_putnbr(nb % 10);
+	}
+	else
+	{
+		i += ft_putchar(nb + '0');
+	}
+	return (i);
+}
+
+int		arg_dec(va_list *args, t_modifiers *flag_list)
+{
+	int nbr;
+
+	if ((*flag_list).flag == L_FLAG)
+		nbr = 0; // Put actual stuff here later.
+	nbr = va_arg(*args, int);
+	return (ft_putnbr(nbr));
+}
 
 // int		ft_atoi(const char *str)
 // {

@@ -13,9 +13,8 @@
 #include "ft_printf.h"
 #include <stdio.h>
 
-int		(*g_funcs[])(va_list *, t_modifiers *) = {arg_putchar, arg_putstr, arg_ptr, x_flag_low, x_flag_upp};
-char	g_conversion[6] = "cspxX\0";
-// char	g_conversion[15] = "cspxXCSdDioOuU\0";
+int		(*g_funcs[])(va_list *, t_modifiers *) = {arg_putchar, arg_putstr, arg_ptr, x_flag_low, x_flag_upp, arg_dec};
+char	g_conversion[15] = "cspxXdCSDioOuU\0";
 
 t_modifiers		*flag_list_init(void)
 {
@@ -36,8 +35,6 @@ int				find_flags(va_list *args, char **fmt, t_modifiers *flag_list)
 		while (g_conversion[++i])
 			if (g_conversion[i] == **fmt)
 				return(g_funcs[i](args, flag_list));
-		if (**fmt == 'd' || **fmt == 'C' || **fmt == 'D' || ((**fmt >= '0') && (**fmt <= '9')))
-			return (1);
 		if (**fmt == '#')
 			(*flag_list).hash = 1;
 		else if (**fmt == '0') // FIX THIS because of precision / minwidth

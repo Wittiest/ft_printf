@@ -43,4 +43,5 @@ int						arg_putstr(va_list *args, t_modifiers *flag_list);
 int						arg_ptr(va_list *args, t_modifiers *flag_list);
 int						x_flag_low(va_list *args, t_modifiers *flag_list);
 int						x_flag_upp(va_list *args, t_modifiers *flag_list);
+int						arg_dec(va_list *args, t_modifiers *flag_list);
 #endif
