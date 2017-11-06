@@ -25,7 +25,7 @@ t_modifiers		*flag_list_init(void)
 	return (flag_list);
 }
 
-int				find_flags(va_list *args, char **fmt, t_modifiers *flag_list)
+int				find_flags(va_list *args, const char **fmt, t_modifiers *flag_list)
 {
 	int i;
 
@@ -58,7 +58,7 @@ int				find_flags(va_list *args, char **fmt, t_modifiers *flag_list)
 	return (-1);
 }
 
-int				ft_printf(char *format, ...)
+int				ft_printf(const char *format, ...)
 {
 	va_list		args;
 	int			char_count;

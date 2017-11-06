@@ -37,11 +37,12 @@ typedef struct			s_modifiers
 	short				flag;
 }						t_modifiers;
 
-int						ft_printf(char *format, ...);
+int						ft_printf(const char *format, ...);
 int						arg_putchar(va_list *args, t_modifiers *flag_list);
 int						arg_putstr(va_list *args, t_modifiers *flag_list);
 int						arg_ptr(va_list *args, t_modifiers *flag_list);
 int						x_flag_low(va_list *args, t_modifiers *flag_list);
 int						x_flag_upp(va_list *args, t_modifiers *flag_list);
 int						arg_dec(va_list *args, t_modifiers *flag_list);
+int						arg_ft_atoi(char **str);
 #endif
