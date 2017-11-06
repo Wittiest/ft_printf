@@ -17,38 +17,54 @@
 char	g_upp_hex[17] = "0123456789ABCDEF";
 char	g_low_hex[17] = "0123456789abcdef";
 
+int		ft_putchar(char c)
+{
+	return(write(1, &c, 1));
+}
+
+size_t	ft_strlen(const char *s)
+{
+	size_t	i;
+
+	i = 0;
+	while (*(s + i))
+		i++;
+	return (i);
+}
+
+void	write_spaces(int i)
+{
+	while (i--)
+		ft_putchar(' ');
+}
+
 int		arg_putchar(va_list *args, t_modifiers *flag_list)
 {
 	unsigned char	c;
-	wint_t			i;
 
-	if ((*flag_list).flag == L_FLAG)
-	{
-		i = (wint_t)va_arg(*args, int);
-		return(write(1, &i, 1));
-	}
-	else
-	{
-		c = (unsigned char)va_arg(*args, int);
-		return(write(1, &c, 1));
-	}
+	c = (unsigned char)va_arg(*args, int);
+	if ((*flag_list).min_width)
+		write_spaces((*flag_list).min_width - 1);
+	return((*flag_list).min_width + write(1, &c, 1));
 }
 
 int		arg_putstr(va_list *args, t_modifiers *flag_list)
 {
 	int i;
+	int len;
 	char *s;
 
 	i = 0;
 	s = (char *)va_arg(*args, void *);
-	if ((*flag_list).flag == L_FLAG)
-		i = 0; // Put actual stuff here later.
+	len = ft_strlen((const char *)s);
+	if ((*flag_list).min_width > len)
+		write_spaces((*flag_list).min_width - len);
 	while (s[i])
 	{
 		write(1, &s[i], 1);
 		i++;
 	}
-	return (i);
+	return (((*flag_list).min_width) ? (*flag_list).min_width : len);
 }
 
 int		print_hex(unsigned int n, int low)
@@ -92,11 +108,6 @@ int		arg_ptr(va_list *args, t_modifiers *flag_list)
 	flag_list = NULL; // fix later
 	nbr = (unsigned int)va_arg(*args, void *);
 	return (print_hex(nbr, 1));
-}
-
-int		ft_putchar(char c)
-{
-	return(write(1, &c, 1));
 }
 
 int		ft_putnbr(int nb)
@@ -158,16 +169,6 @@ int		arg_ft_atoi(const char **str)
 	}
 	(*str)--; // Since the other function always adds
 	return (nbr * neg);
-}
-
-size_t	ft_strlen(const char *s)
-{
-	size_t	i;
-
-	i = 0;
-	while (*(s + i))
-		i++;
-	return (i);
 }
 
 // void	*ft_memset(void *b, int c, size_t len)
