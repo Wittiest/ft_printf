@@ -38,8 +38,9 @@ typedef struct			s_modifiers
 }						t_modifiers;
 
 int						ft_printf(char *format, ...);
-int						arg_putchar(char **fmt, va_list *args, t_modifiers *flag_list);
-int						arg_putstr(char **fmt, va_list *args, t_modifiers *flag_list);
-int						arg_ptr(char **fmt, va_list *args, t_modifiers *flag_list);
-
+int						arg_putchar(va_list *args, t_modifiers *flag_list);
+int						arg_putstr(va_list *args, t_modifiers *flag_list);
+int						arg_ptr(va_list *args, t_modifiers *flag_list);
+int						x_flag_low(va_list *args, t_modifiers *flag_list);
+int						x_flag_upp(va_list *args, t_modifiers *flag_list);
 #endif

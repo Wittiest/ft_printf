@@ -12,16 +12,16 @@
 
 #include "ft_printf.h"
 #include <string.h>
+#include <stdio.h>
 
 char	g_upp_hex[17] = "0123456789ABCDEF";
 char	g_low_hex[17] = "0123456789abcdef";
 
-int		arg_putchar(char **fmt, va_list *args, t_modifiers *flag_list)
+int		arg_putchar(va_list *args, t_modifiers *flag_list)
 {
 	unsigned char	c;
 	wint_t			i;
 
-	(*fmt)++;
 	if ((*flag_list).flag == L_FLAG)
 	{
 		i = (wint_t)va_arg(*args, int);
@@ -34,7 +34,7 @@ int		arg_putchar(char **fmt, va_list *args, t_modifiers *flag_list)
 	}
 }
 
-int		arg_putstr(char **fmt, va_list *args, t_modifiers *flag_list)
+int		arg_putstr(va_list *args, t_modifiers *flag_list)
 {
 	int i;
 	char *s;
@@ -48,31 +48,50 @@ int		arg_putstr(char **fmt, va_list *args, t_modifiers *flag_list)
 		write(1, &s[i], 1);
 		i++;
 	}
-	(*fmt)+= i + 2;
 	return (i);
 }
 
-int print_hex(unsigned long long n)
+int		print_hex(unsigned int n, int low)
 {
 	int i;
 
 	i = 0;
-	if (n > 0)
-		i = print_hex(n / 16);
-	write(1, &g_low_hex[n % 16], 1);
+	if (n >= 16)
+		i = print_hex(n / 16, low);
+	if (low)
+		write(1, &g_low_hex[n % 16], 1);
+	else
+		write(1, &g_upp_hex[n % 16], 1);
 	return (1 + i);
 }
 
-int		arg_ptr(char **fmt, va_list *args, t_modifiers *flag_list)
+int		x_flag_low(va_list *args, t_modifiers *flag_list)
 {
-	int i;
-	unsigned long long nbr;
+	unsigned int nbr;
+
+	if ((*flag_list).flag == L_FLAG)
+		nbr = 0; // Put actual stuff here later.
+	nbr = (unsigned int)va_arg(*args, int);
+	return (print_hex(nbr, 1));
+}
+
+int		x_flag_upp(va_list *args, t_modifiers *flag_list)
+{
+	unsigned int nbr;
+
+	if ((*flag_list).flag == L_FLAG)
+		nbr = 0; // Put actual stuff here later.
+	nbr = (unsigned int)va_arg(*args, int);
+	return (print_hex(nbr, 0));
+}
+
+int		arg_ptr(va_list *args, t_modifiers *flag_list)
+{
+	unsigned int nbr;
 
 	flag_list = NULL; // fix later
-	nbr = (unsigned long long)va_arg(*args, void *);
-	i = print_hex(nbr);
-	(*fmt)+= i;
-	return (i);
+	nbr = (unsigned int)va_arg(*args, void *);
+	return (print_hex(nbr, 1));
 }
 
 // static void	ft_putchar(char c)

@@ -13,8 +13,9 @@
 #include "ft_printf.h"
 #include <stdio.h>
 
-int		(*g_funcs[])(char **, va_list *, t_modifiers *) = {arg_putchar, arg_putstr, arg_ptr};
-char	g_conversion[15] = "cspCSdDioOuUxX\0";
+int		(*g_funcs[])(va_list *, t_modifiers *) = {arg_putchar, arg_putstr, arg_ptr, x_flag_low, x_flag_upp};
+char	g_conversion[6] = "cspxX\0";
+// char	g_conversion[15] = "cspxXCSdDioOuU\0";
 
 t_modifiers		*flag_list_init(void)
 {
@@ -34,7 +35,7 @@ int				find_flags(va_list *args, char **fmt, t_modifiers *flag_list)
 		i = -1;
 		while (g_conversion[++i])
 			if (g_conversion[i] == **fmt)
-				return(g_funcs[i](fmt, args, flag_list));
+				return(g_funcs[i](args, flag_list));
 		if (**fmt == '#')
 			(*flag_list).hash = 1;
 		else if (**fmt == '0') // FIX THIS because of precision / minwidth
@@ -72,7 +73,10 @@ int				ft_printf(char *format, ...)
 			if (*(format + 1) && (*(format + 1) == '%') && (format += 2))
 				write(1, "%%", 1);
 			else
+			{
 				char_count += find_flags(&args, &format, flag_list_init());
+				format++; //advance past conversion char
+			}
 		}
 		else
 		{
