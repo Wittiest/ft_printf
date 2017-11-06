@@ -36,6 +36,8 @@ int				find_flags(va_list *args, char **fmt, t_modifiers *flag_list)
 		while (g_conversion[++i])
 			if (g_conversion[i] == **fmt)
 				return(g_funcs[i](args, flag_list));
+		if (**fmt == 'd' || **fmt == 'C' || **fmt == 'D')
+			return (1);
 		if (**fmt == '#')
 			(*flag_list).hash = 1;
 		else if (**fmt == '0') // FIX THIS because of precision / minwidth
@@ -75,7 +77,7 @@ int				ft_printf(char *format, ...)
 			else
 			{
 				char_count += find_flags(&args, &format, flag_list_init());
-				format++; //advance past conversion char
+				format++;
 			}
 		}
 		else
