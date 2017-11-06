@@ -13,8 +13,8 @@
 #include "ft_printf.h"
 #include <stdio.h>
 
-int		(*g_funcs[])(va_list *, t_modifiers *) = {arg_putchar, arg_putstr, arg_ptr, x_flag_low, x_flag_upp, arg_dec};
-char	g_conversion[15] = "cspxXdCSDioOuU\0";
+int		(*g_funcs[])(va_list *, t_modifiers *) = {arg_putchar, arg_putstr, arg_ptr, x_flag_low, x_flag_upp, arg_dec, arg_dec};
+char	g_conversion[15] = "cspxXdiCSDoOuU\0";
 
 t_modifiers		*flag_list_init(void)
 {
