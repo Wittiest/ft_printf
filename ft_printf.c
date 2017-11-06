@@ -36,7 +36,7 @@ int				find_flags(va_list *args, char **fmt, t_modifiers *flag_list)
 		while (g_conversion[++i])
 			if (g_conversion[i] == **fmt)
 				return(g_funcs[i](args, flag_list));
-		if (**fmt == 'd' || **fmt == 'C' || **fmt == 'D')
+		if (**fmt == 'd' || **fmt == 'C' || **fmt == 'D' || ((**fmt >= '0') && (**fmt <= '9')))
 			return (1);
 		if (**fmt == '#')
 			(*flag_list).hash = 1;
