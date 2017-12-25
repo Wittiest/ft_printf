@@ -6,43 +6,54 @@
 /*   By: dpearson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/22 03:16:37 by dpearson          #+#    #+#             */
-/*   Updated: 2017/10/26 11:13:52 by dpearson         ###   ########.fr       */
+/*   Updated: 2017/12/24 12:58:20 by dpearson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_PRINTF_H
-# define FT_PRINTF_H
+#define FT_PRINTF_H
 
-# include <stdarg.h>
-# include <unistd.h>
-# include <stdlib.h>
-# include <string.h>
-# include <wchar.h>
-# define HH_FLAG 1
-# define H_FLAG 2
-# define L_FLAG 3
-# define LL_FLAG 4
-# define J_FLAG 5
-# define Z_FLAG 6
+#include <stdarg.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdint.h>
 
-typedef struct			s_modifiers
+enum LENGTH_MODIFIERS
 {
-	short				hash;
-	short				zero;
-	short				minus;
-	short				plus;
-	short				space;
-	int					min_width;
-	int					precision;
-	short				flag;
-}						t_modifiers;
+	H = 1,
+	HH = 2,
+	L = 3,
+	LL = 4,
+	J = 5,
+	Z = 6
+};
 
-int						ft_printf(const char *format, ...);
-int						arg_putchar(va_list *args, t_modifiers *flag_list);
-int						arg_putstr(va_list *args, t_modifiers *flag_list);
-int						arg_ptr(va_list *args, t_modifiers *flag_list);
-int						x_flag_low(va_list *args, t_modifiers *flag_list);
-int						x_flag_upp(va_list *args, t_modifiers *flag_list);
-int						arg_dec(va_list *args, t_modifiers *flag_list);
-int						arg_ft_atoi(const char **str);
+typedef struct	s_flags
+{
+	short		hash;
+	short		zero;
+	short		plus;
+	short		minus;
+	short		space;
+}				t_flags;
+
+typedef struct	s_start
+{
+	int			ret;
+	char 		*format;
+	va_list 	args;
+	t_flags		flags;
+	int			min_width;
+	int			precision;
+	short		length_mod;
+}				t_start;
+
+int		ft_printf(char *format, ...);
+void	printstr(int begin, int end, t_start *start);
+void	zero_flags(t_start *start);
+void	escape_check(t_start *start, int *i);
+void	parse_conv_char(t_start *start, int *i);
+void	parser(t_start *start);
+
 #endif

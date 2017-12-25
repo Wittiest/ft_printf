@@ -1,26 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   numbers.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpearson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/10/26 06:38:31 by dpearson          #+#    #+#             */
-/*   Updated: 2017/12/24 12:58:09 by dpearson         ###   ########.fr       */
+/*   Created: 2017/12/25 10:46:01 by dpearson          #+#    #+#             */
+/*   Updated: 2017/12/25 10:46:02 by dpearson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include <stdio.h>
 
-int		ft_printf(char *format, ...)
-{
-	t_start		start;
+// void	print_hex(t_start *start, int *i)
+// {
+// 	intmax_t	h;
 
-	start.format = format;
-	start.ret = 0;
-	va_start(start.args, format);
-	parser(&start);
-	va_end(start.args);
-	return (start.ret);
-}
+// 	h = va_arg(start->args, unsigned int);
+// }

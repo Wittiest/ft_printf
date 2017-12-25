@@ -10,18 +10,19 @@
 #                                                                              #
 #******************************************************************************#
 
+CC			=	gcc
+
+CFLAGS		=	-Wall -Wextra -Werror -I ./
+
 NAME		=	libftprintf.a
 
-FILENAMES	=	ft_printf.c utils.c
+FILENAMES	=	ft_printf.c utils.c conversion_char.c parser.c
 
-OBJECTS		= ${FILENAMES:c=o}
-
-OPTION		=	-c -I ./
+OBJECTS		= ${FILENAMES:.c=.o}
 
 all : $(NAME)
 
-$(NAME):
-	@ gcc -Wall -Wextra -Werror $(OPTION) $(FILENAMES)
+$(NAME): $(OBJECTS)
 	@ ar rcs $(NAME) $(OBJECTS)
 	@ ranlib $(NAME)
 
