@@ -35,6 +35,7 @@ static void	parse_flags(t_start *start, int *i)
 
 static void	parse_field_width(t_start *start, int *i)
 {
+	printf("test\n");
 	start->min_width = 0;
 	while (start->format[*i] && (start->format[*i] >= '0') && (start->format[*i] <= '9'))
 	{
