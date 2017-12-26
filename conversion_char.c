@@ -11,8 +11,10 @@
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-
 //sSpdDioOuUxXcC
+int		(*g_funcs[])(t_start *) = 	{print_hex, print_hex, ft_putchar_arg,
+									ft_putchar_arg, ft_putstr_arg, ft_putstr_arg};
+char	g_conversion[15] = "xXcCsSdiDpoOuU\0";
 
 /*
 **	As there is no type which is implicitly bigger than 4 bytes, I will read an
@@ -21,51 +23,63 @@
 **	later to deal with the case of an int passed with H for example.
 */
 
-void	read_arg(t_start *start, intmax_t *arg, uintmax_t *u_arg, uint8_t un)
+void	read_arg(t_start *start, char c)
 {
-	if (un)
+	if (c == 'o' || c == 'O' || c == 'u' || c == 'U' || c == 'x' || c == 'X' ||
+		c == 'c' || c == 'C' || c == 'S' || c == 's')
 	{
-		if (start->length_mod == L)
-			*u_arg = va_arg(start->args, unsigned long);
+		if ((start->length_mod == L) || c == 'S' || c == 's')
+			start->u_arg = va_arg(start->args, unsigned long);
 		else if (start->length_mod == LL)
-			*u_arg = va_arg(start->args, unsigned long long);
+			start->u_arg = va_arg(start->args, unsigned long long);
 		else if (start->length_mod == J)
-			*u_arg = va_arg(start->args, uintmax_t);
+			start->u_arg = va_arg(start->args, uintmax_t);
 		else if (start->length_mod == Z)
-			*u_arg = va_arg(start->args, size_t);
+			start->u_arg = va_arg(start->args, size_t);
 		else
-			*u_arg = va_arg(start->args, unsigned int); // shorten after with typecast for certain cases
+			start->u_arg = va_arg(start->args, unsigned int); // shorten after with typecast for certain cases
 		return ;
 	}
 	if (start->length_mod == L)
-		*arg = va_arg(start->args, long);
+		start->arg = va_arg(start->args, long);
 	else if (start->length_mod == LL)
-		*arg = va_arg(start->args, long long);
+		start->arg = va_arg(start->args, long long);
 	else if (start->length_mod == J)
-		*arg = va_arg(start->args, intmax_t);
+		start->arg = va_arg(start->args, intmax_t);
 	else if (start->length_mod == Z)
-		*arg = va_arg(start->args, size_t); // signed with d or i. Just size of size_t
+		start->arg = va_arg(start->args, size_t);
 	else
-		*arg = va_arg(start->args, int); // shorten after with typecast for certain cases
+		start->arg = va_arg(start->args, int); // shorten after with typecast for certain cases
 }
 
-void	parse_conv_char(t_start *start, int *i)
+void	parse_conv_char(t_start *start)
 {
-	intmax_t	arg;
-	uintmax_t	u_arg;
-	char		c;
+	int			i;
 
-	c = start->format[(*i)++];
-	if (c == 'D' || c == 'O' || c == 'U')
+	if (start->c == 'D' || start->c == 'O' || start->c == 'U')
 		start->length_mod = L;
-	read_arg(start, &arg, &u_arg, ((c == 'o' || c == 'O' || c == 'u' || c == 'U'
-									|| c == 'x' || c == 'X' || c == 's' ||
-									c == 'S' || c == 'c' || c == 'C') ? 1 : 0));
-	// malloc the string
+	read_arg(start, start->c);
+	if (start->c == 'C' || start->c == 'S')
+		start->length_mod = L;
+	i = 0;
+	while (g_conversion[i])
+	{
+		if (g_conversion[i] == start->c)
+		{
+			start->ret += g_funcs[i](start);
+			break;
+		}
+		i++;
+	}
+	if (i == 15)
+	{
+		write(1, "Invalid conversion character\n", 31);
+		exit(5);
+	}
+	// deal with precision in each
 		// if precision
 			// if s, precision determines max characters
 		// if decimal, max of min_width, precision, num size
-	//create large static string for shit. Handle it in a function. Store in this one
 	// pass string to function with dispatch table (D == d, O == o, U == u due to previous l conversion)
 		//typecast arg
 		//print shit

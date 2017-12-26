@@ -16,20 +16,20 @@ CFLAGS		=	-Wall -Wextra -Werror -I ./
 
 NAME		=	libftprintf.a
 
-FILENAMES	=	ft_printf.c utils.c conversion_char.c parser.c
+FILENAMES	=	ft_printf.c utils.c conversion_char.c parser.c chars.c hex.c
 
 OBJECTS		= ${FILENAMES:.c=.o}
 
 all : $(NAME)
 
 $(NAME): $(OBJECTS)
-	@ ar rcs $(NAME) $(OBJECTS)
-	@ ranlib $(NAME)
+	ar rcs $(NAME) $(OBJECTS)
+	ranlib $(NAME)
 
 clean:
-	@ rm -f $(OBJECTS)
+	rm -f $(OBJECTS)
 
 fclean: clean
-	@ rm -f $(NAME)
+	rm -f $(NAME)
 
 re: fclean all

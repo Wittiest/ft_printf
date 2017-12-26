@@ -101,10 +101,12 @@ void		parser(t_start *start)
 			parse_field_width(start, &i);
 			parse_precision(start, &i);
 			parse_length_mod(start, &i);
-			parse_conv_char(start, &i);
+			start->c = start->format[i++];
+			parse_conv_char(start);
 			ix = i;
 		}
-		i++;
+		else
+			i++;
 	}
 	printstr(ix, i, start);
 }
