@@ -38,7 +38,6 @@ static void	parse_field_width(t_start *start, int *i)
 	start->min_width = 0;
 	while (start->format[*i] && (start->format[*i] >= '0') && (start->format[*i] <= '9'))
 	{
-		exit(1);
 		start->min_width *= 10;
 		start->min_width += (start->format[*i] - '0');
 		(*i)++;

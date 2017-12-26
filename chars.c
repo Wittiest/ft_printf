@@ -33,6 +33,8 @@ int		ft_putstr_arg(t_start *start)
 
 	str = (char *)start->u_arg;
 	i = 0;
+	if (!str)
+		return (write(1, "(null)", 6));
 	if (start->length_mod == L)
 	{
 		while (str[i])
