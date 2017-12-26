@@ -18,13 +18,11 @@ int		signed_arg(t_start *start)
 	int		neg;
 	int		i;
 
-	neg = (start->arg < 0) ? 1 : 0;
-	if (neg)
-		write(1, "-", 1);
+	neg = (start->arg < 0) ? write(1, "-", 1) : 0;
 	if (!start->arg)
 		write(1, "0", 1);
 	i = 0;
-	while ((start->arg) > 0)
+	while ((start->arg) != 0)
 	{
 		str[i] = '0' + ((neg) ? -(start->arg % 10) : (start->arg % 10));
 		start->arg /= 10;
