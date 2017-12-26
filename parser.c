@@ -96,7 +96,7 @@ void		parser(t_start *start)
 		{
 			printstr(ix, i, start);
 			i++;
-			if (escape_check(start, &i) && (ix =))
+			if (escape_check(start, &i) && (ix = i))
 				continue ;
 			parse_flags(start, &i);
 			parse_field_width(start, &i);
