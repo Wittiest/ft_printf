@@ -38,7 +38,6 @@ static void	parse_field_width(t_start *start, int *i)
 	start->min_width = 0;
 	while (start->format[*i] >= '0' && start->format[*i] <= '9')
 	{
-		exit(2);
 		start->min_width *= 10;
 		start->min_width += start->format[*i] - '0';
 		(*i)++;
@@ -97,7 +96,7 @@ void		parser(t_start *start)
 		{
 			printstr(ix, i, start);
 			i++;
-			if (escape_check(start, &i) && (ix = i))
+			if (escape_check(start, &i) && (ix =))
 				continue ;
 			parse_flags(start, &i);
 			parse_field_width(start, &i);
