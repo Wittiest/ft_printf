@@ -22,7 +22,7 @@ int		signed_arg(t_start *start)
 	if (!start->arg)
 		write(1, "0", 1);
 	i = 0;
-	while ((start->arg) != 0)
+	while ((start->arg) > 0 || ((neg) && (start->arg < 0)))
 	{
 		str[i] = '0' + ((neg) ? -(start->arg % 10) : (start->arg % 10));
 		start->arg /= 10;
