@@ -12,10 +12,15 @@
 
 #include "ft_printf.h"
 
-void	escape_check(t_start *start, int *i)
+int		escape_check(t_start *start, int *i)
 {
 	if (start->format[*i] == '%')
+	{
 		(*i) += write(1, "%", 1);
+		start->ret++;
+		return (1);
+	}
+	return (0);
 }
 
 void	printstr(int begin, int end, t_start *start)

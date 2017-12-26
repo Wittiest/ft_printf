@@ -55,7 +55,7 @@ typedef struct	s_start
 int		ft_printf(char *format, ...);
 void	printstr(int begin, int end, t_start *start);
 void	zero_flags(t_start *start);
-void	escape_check(t_start *start, int *i);
+int		escape_check(t_start *start, int *i);
 void	parse_conv_char(t_start *start);
 void	parser(t_start *start);
 
