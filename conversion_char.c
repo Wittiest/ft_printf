@@ -11,10 +11,11 @@
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-//sSpdDioOuUxXcC
+
 int		(*g_funcs[])(t_start *) = 	{print_hex, print_hex, ft_putchar_arg,
-									ft_putchar_arg, ft_putstr_arg, ft_putstr_arg};
-char	g_conversion[15] = "xXcCsSdiDpoOuU\0";
+									ft_putchar_arg, ft_putstr_arg, ft_putstr_arg
+									,signed_arg, signed_arg, signed_arg};
+char	g_conversion[15] = "xXcCsSdiDuUpoO\0";
 
 /*
 **	As there is no type which is implicitly bigger than 4 bytes, I will read an
