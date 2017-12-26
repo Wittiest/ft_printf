@@ -14,8 +14,8 @@
 
 int		(*g_funcs[])(t_start *) = 	{print_hex, print_hex, ft_putchar_arg,
 									ft_putchar_arg, ft_putstr_arg, ft_putstr_arg
-									,signed_arg, signed_arg, signed_arg, signed_arg, signed_arg, signed_arg, signed_arg
-									signed_arg};
+									,signed_arg, signed_arg, signed_arg, signed_arg, signed_arg, signed_arg, signed_arg,
+									signed_arg}; // FIX
 char	g_conversion[15] = "xXcCsSdiDuUpoO\0";
 
 /*
