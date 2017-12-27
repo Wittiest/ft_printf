@@ -41,14 +41,14 @@ static void	read_arg(t_start *start, char c)
 			start->arg = va_arg(start->args, int);
 		return ;
 	}
-		if (start->l_mod == L)
+		if (start->l_mod == Z || c == 'S' || c == 's' || c == 'p')
+			start->u_arg = va_arg(start->args, size_t);			
+		else if (start->l_mod == L)
 			start->u_arg = va_arg(start->args, unsigned long);
 		else if (start->l_mod == LL)
 			start->u_arg = va_arg(start->args, unsigned long long);
 		else if (start->l_mod == J)
 			start->u_arg = va_arg(start->args, uintmax_t);
-		else if (start->l_mod == Z || c == 'S' || c == 's' || c == 'p')
-			start->u_arg = va_arg(start->args, size_t);
 		else
 			start->u_arg = va_arg(start->args, unsigned int);
 }
