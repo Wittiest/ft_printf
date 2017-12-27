@@ -17,7 +17,7 @@ static int		print_hex_low(uintmax_t	u_arg, int p)
 	char	low_hex[17] = "0123456789abcdef";
 	int		i;
 
-	i = (p) ? write(1, "0x", 2) : 0;
+	i = (p && u_arg) ? write(1, "0x", 2) : 0;
 	if (u_arg >= 16)
 		i = print_hex_low(u_arg / 16, 0);
 	write(1, &low_hex[u_arg % 16], 1);
@@ -29,7 +29,7 @@ static int		print_hex_upp(uintmax_t	u_arg, int hash)
 	char	upp_hex[17] = "0123456789ABCDEF";
 	int		i;
 
-	i = (hash) ? write(1, "0X", 2) : 0;
+	i = (hash && u_arg) ? write(1, "0X", 2) : 0;
 	if (u_arg >= 16)
 		i = print_hex_upp(u_arg / 16, 0);
 	write(1, &upp_hex[u_arg % 16], 1);
@@ -51,7 +51,7 @@ static int	print_oct(uintmax_t t, int hash)
 	int		ret;
 	char	c;
 
-	ret = (hash) ? write(1, "0", 1) : 0;
+	ret = (hash && t) ? write(1, "0", 1) : 0;
 	if (t >= 8)
 		ret = print_oct((t / 8), 0);
 	c = (t % 8) + '0';
