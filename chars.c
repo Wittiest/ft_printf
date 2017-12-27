@@ -25,40 +25,42 @@ int		ft_putchar_arg(t_start *start)
 	}
 }
 
-int		ft_putstr_arg(t_start *start)
+static int		ft_putstr_wide(wchar_t *str)
 {
-	int		i;
-	char	*str;
-	char	c;
-	wchar_t *w_str;
+	int i;
 
-	if (start->length_mod == L)
-	{
-		if (!(w_str = (wchar_t *)start->u_arg))
-			return (write(1, "(null)", 6));
-	}
-	else
-	{
-		if (!(str = (char *)start->u_arg))
-			return (write(1, "(null)", 6));		
-	}
 	i = 0;
-	if (start->length_mod == L)
+	if (!str)
+		return (write(1, "(null)", 6));
+	while (str[i])
 	{
-		while (w_str[i])
-		{
-			write(1, &w_str[i], 1);
-			i++;
-		}
-	}
-	else
-	{
-		while (str[i])
-		{
-			c = (char)str[i];
-			write(1, &c, 1);
-			i++;
-		}
+		write(1, &str[i], 1);
+		i++;
 	}
 	return (i);
+}
+
+static int		ft_putstrr(char *str)
+{
+	int		i;
+	char	c;
+
+	i = 0;
+	if (!str)
+		return (write(1, "(null)", 6));
+	while (str[i])
+	{
+		c = (char)str[i];
+		write(1, &c, 1);
+		i++;
+	}
+	return (i);
+}
+
+int		ft_putstr_arg(t_start *start)
+{
+	if (start->length_mod == L)
+		return(ft_putstr_wide((wchar_t *)start->u_arg));
+	else
+		return(ft_putstrr((char *)start->u_arg));
 }
