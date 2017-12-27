@@ -17,7 +17,7 @@ int		ft_putchar_arg(t_start *start)
 	char	c;
 
 	if (start->l_mod == L)
-		return(write(1, &start->u_arg, 4));
+		return(write(1, &start->u_arg, 1));
 	else
 	{
 		c = (char)start->u_arg;
@@ -34,7 +34,7 @@ static int		ft_putstr_wide(wchar_t *str)
 		return (write(1, "(null)", 6));
 	while (str[i])
 	{
-		write(1, &str[i], 4);
+		write(1, &str[i], 1);
 		i++;
 	}
 	return (i);
