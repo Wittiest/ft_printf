@@ -30,13 +30,13 @@ void	read_arg(t_start *start, char c)
 	if (c == 'o' || c == 'O' || c == 'u' || c == 'U' || c == 'x' || c == 'X' ||
 		c == 'c' || c == 'C' || c == 'S' || c == 's' || c == 'p')
 	{
-		if ((start->length_mod == L) || c == 'S' || c == 's')
+		if (start->length_mod == L)
 			start->u_arg = va_arg(start->args, unsigned long);
 		else if (start->length_mod == LL)
 			start->u_arg = va_arg(start->args, unsigned long long);
 		else if (start->length_mod == J)
 			start->u_arg = va_arg(start->args, uintmax_t);
-		else if (start->length_mod == Z)
+		else if (start->length_mod == Z || c == 'S' || c == 's' || c == 'p')
 			start->u_arg = va_arg(start->args, size_t);
 		else
 			start->u_arg = va_arg(start->args, unsigned int); // shorten after with typecast for certain cases
