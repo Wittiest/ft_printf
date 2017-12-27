@@ -28,7 +28,7 @@ char	g_conversion[15] = "xXcCsSdiDuUpoO\0";
 void	read_arg(t_start *start, char c)
 {
 	if (c == 'o' || c == 'O' || c == 'u' || c == 'U' || c == 'x' || c == 'X' ||
-		c == 'c' || c == 'C' || c == 'S' || c == 's')
+		c == 'c' || c == 'C' || c == 'S' || c == 's', c == 'p')
 	{
 		if ((start->length_mod == L) || c == 'S' || c == 's')
 			start->u_arg = va_arg(start->args, unsigned long);
