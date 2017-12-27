@@ -12,20 +12,28 @@
 
 #include "ft_printf.h"
 
-int		unsigned_count(uintmax_t n, int base)
+/*
+**	Should calculate exact print count of an unsigned int with (p, x, X, o, O, u, U)
+*/
+int		unsigned_count(uintmax_t n, int base, t_start *start)
 {
 	int len;
 
 	len = 0;
 	while (++len && (n /= base));
+	len += (start->flags.hash * 2) + (start->flags.plus || start->flags.space);
+	if (start->c == 'o' || start->c == 'O')
+		len -= start->flags.hash;
 	return (len);
 }
-
-int		signed_count(intmax_t n)
+/*
+**	Should calculate exact print count of any signed int (d, D, i)
+*/
+int		signed_count(intmax_t n, t_start *start)
 {
 	int len;
 
-	len = (n < 0) ? 1 : 0;
+	len = ((n < 0) || start->flags.plus || start->flags.space) ? 1 : 0;
 	while (++len && (n /= 10));
 	return (len);
 }

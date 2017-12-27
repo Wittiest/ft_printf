@@ -19,7 +19,7 @@ int		signed_arg(t_start *start)
 	int		i;
 	int		p;
 
-	p = signed_count(start->arg);
+	p = signed_count(start->arg, start);
 	neg = (start->arg < 0) ? write(1, "-", 1) : 0;
 	i = 0;
 	if (!start->arg && ++i)
@@ -44,7 +44,7 @@ int		unsigned_arg(t_start *start)
 	int		j;
 	int		p;
 
-	p = unsigned_count(start->u_arg, 10);
+	p = unsigned_count(start->u_arg, 10, start);
 	i = 0;
 	if (!start->u_arg && ++i)
 		str[0] = '0';
