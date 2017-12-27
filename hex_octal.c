@@ -29,7 +29,7 @@ static int		print_hex_upp(uintmax_t	u_arg, int hash)
 	char	upp_hex[17] = "0123456789ABCDEF";
 	int		i;
 
-	i = (hash) ? write(1, "0x", 2) : 0;
+	i = (hash) ? write(1, "0X", 2) : 0;
 	if (u_arg >= 16)
 		i = print_hex_upp(u_arg / 16, 0);
 	write(1, &upp_hex[u_arg % 16], 1);
