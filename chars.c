@@ -29,17 +29,18 @@ int		ft_putstr_arg(t_start *start)
 {
 	int		i;
 	char	*str;
+	char	c;
 	wchar_t *w_str;
 
 	if (start->length_mod == L)
 	{
-		if (!(str = (char *)start->u_arg))
+		if (!(w_str = (wchar_t *)start->u_arg))
 			return (write(1, "(null)", 6));
 	}
 	else
 	{
-		if (!(w_str = (wchar_t *)start->u_arg))
-			return (write(1, "(null)", 6));	
+		if (!(str = (char *)start->u_arg))
+			return (write(1, "(null)", 6));		
 	}
 	i = 0;
 	if (start->length_mod == L)
@@ -54,7 +55,8 @@ int		ft_putstr_arg(t_start *start)
 	{
 		while (str[i])
 		{
-			write(1, &str[i], 1);
+			c = (char)str[i];
+			write(1, &c, 1);
 			i++;
 		}
 	}
