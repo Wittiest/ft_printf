@@ -38,7 +38,7 @@ static int		print_hex_upp(uintmax_t	u_arg)
 
 int		print_hex(t_start *start)
 {
-	if (start->c == 'x')
+	if (start->c == 'x' || start->c == 'p')
 		return(print_hex_low(start->u_arg));
 	else
 		return(print_hex_upp(start->u_arg));
