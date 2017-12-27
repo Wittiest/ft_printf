@@ -46,7 +46,7 @@ typedef struct	s_start
 	va_list 	args;
 	t_flags		flags;
 	int			min_width;
-	int			precision;
+	int			prec;
 	short		l_mod;
 	intmax_t	arg;
 	uintmax_t	u_arg;
@@ -60,6 +60,7 @@ void	parse_conv_char(t_start *start);
 void	parser(t_start *start);
 int		signed_count(intmax_t n, t_start *start);
 int		unsigned_count(uintmax_t n, int base, t_start *start);
+void	string_pad(t_start *start, int print_len, char *str, char *w_str);
 
 int		print_hex(t_start *start);
 int		ft_putstr_arg(t_start *start);

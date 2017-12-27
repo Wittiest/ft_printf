@@ -96,8 +96,8 @@ void	parse_conv_char(t_start *start)
 		write(1, "Invalid conversion character\n", 31);
 		exit(5);
 	}
-	// deal with precision in each
-		// if precision
-			// if s, precision determines max characters
-		// if decimal, max of min_width, precision, num size
+	// deal with prec in each
+		// if prec
+			// if s, prec determines max characters
+		// if decimal, max of min_width, prec, num size
 }
