@@ -19,7 +19,7 @@ static int		print_hex_low(uintmax_t	u_arg, int p, int hash)
 
 	i = (p || (hash && u_arg)) ? write(1, "0x", 2) : 0;
 	if (u_arg >= 16)
-		i = print_hex_low(u_arg / 16, 0, 0);
+		i += print_hex_low(u_arg / 16, 0, 0);
 	write(1, &low_hex[u_arg % 16], 1);
 	return (1 + i);
 }
@@ -31,14 +31,17 @@ static int		print_hex_upp(uintmax_t	u_arg, int hash)
 
 	i = (hash && u_arg) ? write(1, "0X", 2) : 0;
 	if (u_arg >= 16)
-		i = print_hex_upp(u_arg / 16, 0);
+		i += print_hex_upp(u_arg / 16, 0);
 	write(1, &upp_hex[u_arg % 16], 1);
 	return (1 + i);
 }
 
 int		print_hex(t_start *start)
 {
-
+	if (start->length_mod == H)
+		start->u_arg = (short)start->u_arg;
+	else if (start->length_mod == HH)
+		start->u_arg = (unsigned char)start->u_arg;
 	if (start->c == 'X')
 		return(print_hex_upp(start->u_arg, start->flags.hash));
 	else
@@ -52,7 +55,7 @@ static int	print_oct(uintmax_t t, int hash)
 
 	ret = (hash && t) ? write(1, "0", 1) : 0;
 	if (t >= 8)
-		ret = print_oct((t / 8), 0);
+		ret += print_oct((t / 8), 0);
 	c = (t % 8) + '0';
 	write(1, &c, 1);
 	return (1 + ret);
@@ -60,5 +63,9 @@ static int	print_oct(uintmax_t t, int hash)
 
 int		print_octal(t_start *start)
 {
+	if (start->length_mod == H)
+		start->u_arg = (short)start->u_arg;
+	else if (start->length_mod == HH)
+		start->u_arg = (unsigned char)start->u_arg;
 	return(print_oct(start->u_arg, start->flags.hash));
 }
