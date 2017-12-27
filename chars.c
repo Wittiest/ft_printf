@@ -28,18 +28,25 @@ int		ft_putchar_arg(t_start *start)
 int		ft_putstr_arg(t_start *start)
 {
 	int		i;
-	char	c;
 	char	*str;
+	wchar_t *w_str;
 
-	str = (char *)start->u_arg;
-	i = 0;
-	if (!str)
-		return (write(1, "(null)", 6));
 	if (start->length_mod == L)
 	{
-		while (str[i])
+		if (!(str = (char *)start->u_arg))
+			return (write(1, "(null)", 6));
+	}
+	else
+	{
+		if (!(w_str = (wchar_t *)start->u_arg))
+			return (write(1, "(null)", 6));	
+	}
+	i = 0;
+	if (start->length_mod == L)
+	{
+		while (w_str[i])
 		{
-			write(1, &str[i], 1);
+			write(1, &w_str[i], 1);
 			i++;
 		}
 	}
@@ -47,8 +54,7 @@ int		ft_putstr_arg(t_start *start)
 	{
 		while (str[i])
 		{
-			c = (char)str[i];
-			write(1, &c, 1);
+			write(1, &str[i], 1);
 			i++;
 		}
 	}
