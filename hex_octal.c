@@ -51,7 +51,7 @@ static int	print_oct(uintmax_t t, int hash)
 	int		ret;
 	char	c;
 
-	ret = (hash) ? write(1, "O", 1) : 0;
+	ret = (hash) ? write(1, "0", 1) : 0;
 	if (t >= 8)
 		ret = print_oct((t / 8), 0);
 	c = (t % 8) + '0';
