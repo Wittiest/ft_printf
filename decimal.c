@@ -28,7 +28,7 @@ int		signed_arg(t_start *start)
 		start->arg /= 10;
 		i++;
 	}
-	neg = i;
+	neg += i;
 	while (--i >= 0)
 		write(1, &str[i], 1);
 	return (neg);
