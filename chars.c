@@ -12,53 +12,59 @@
 
 #include "ft_printf.h"
 
-static void		ft_putstr_wide(t_start *start, wchar_t *str, int strlen, int lim)
+static void	ft_putstr_wide(t_start *start, wchar_t *str, int strlen, int lim)
 {
 	int			i;
 
-	if (!(start->flags.minus) && (lim > strlen))
-		while (lim-- > strlen)
+	if (!(start->flags.minus) && ((lim > strlen) || (lim > start->prec)))
+		while ((start->min_width-- > strlen) || ((start->prec) &&
+			(start->min_width + 1) > start->prec)) 
 			write(1, " ", 1);
 	i = 0;
 	if (!str)
 	{
 		write(1, "(null)", 6);
-		if (start->flags.minus && (lim > strlen))
-			while (lim-- > strlen)
-				write(1, " ", 1);		
+		if ((start->flags.minus) && ((lim > strlen) || (lim > start->prec)))
+			while ((start->min_width-- > strlen) || ((start->prec) &&
+				(start->min_width + 1) > start->prec)) 
+				write(1, " ", 1);
 		return ;
 	}
-	while (i < strlen)
+	while ((i < strlen) && (start->prec ? (i < start->prec) : 1))
 		write(1, &str[i++], 1);
-	if (start->flags.minus && (lim > strlen))
-		while (lim-- > strlen)
+	if ((start->flags.minus) && ((lim > strlen) || (lim > start->prec)))
+		while ((start->min_width-- > strlen) || ((start->prec) &&
+			(start->min_width + 1) > start->prec)) 
 			write(1, " ", 1);
 }
 
-static void		ft_putstrr(t_start *start, char *str, int strlen, int lim)
+static void	ft_putstrr(t_start *start, char *str, int strlen, int lim)
 {
 	int			i;
 
-	if (!(start->flags.minus) && (lim > strlen))
-		while (lim-- > strlen)
+	if (!(start->flags.minus) && ((lim > strlen) || (lim > start->prec)))
+		while ((start->min_width-- > strlen) || ((start->prec) &&
+			(start->min_width + 1) > start->prec)) 
 			write(1, " ", 1);
 	i = 0;
 	if (!str)
 	{
 		write(1, "(null)", 6);
-		if (start->flags.minus && (lim > strlen))
-			while (lim-- > strlen)
-				write(1, " ", 1);		
+		if ((start->flags.minus) && ((lim > strlen) || (lim > start->prec)))
+			while ((start->min_width-- > strlen) || ((start->prec) &&
+				(start->min_width + 1) > start->prec)) 
+				write(1, " ", 1);
 		return ;
 	}
-	while (i < strlen)
+	while ((i < strlen) && (start->prec ? (i < start->prec) : 1))
 		write(1, &str[i++], 1);
-	if (start->flags.minus && (lim > strlen))
-		while (lim-- > strlen)
+	if ((start->flags.minus) && ((lim > strlen) || (lim > start->prec)))
+		while ((start->min_width-- > strlen) || ((start->prec) &&
+			(start->min_width + 1) > start->prec)) 
 			write(1, " ", 1);
 }
 
-static	int		ft_str_count(t_start *start)
+static int	ft_str_count(t_start *start)
 {
 	int		len;
 	char	*str;
@@ -81,34 +87,36 @@ static	int		ft_str_count(t_start *start)
 		while (str[len])
 			len++;
 	}
-	return (((start->prec) && (start->prec < len)) ? start->prec : len);
+	return (len);
 }
 
-int		ft_putstr_arg(t_start *start)
+int			ft_putstr_arg(t_start *start)
 {
 	int		count;
 	int		limit;
+	int		ret;
 
 	limit = (start->prec > start->min_width) ? start->prec : start->min_width;
 	count = ft_str_count(start);
+	ret = (limit > count) ? limit : count;
+	if (start->prec && (start->min_width == 0))
+		ret = (start->prec < count) ? start->prec : count;
 	if (start->l_mod == L)
 		ft_putstr_wide(start, (wchar_t *)start->u_arg, count, limit);
 	else
 		ft_putstrr(start, (char *)start->u_arg, count, limit);
-	return ((limit > count)? limit : count);
+	return (ret);
 }
 
-int		ft_putchar_arg(t_start *start)
+int			ft_putchar_arg(t_start *start)
 {
 	char	c;
 	int		i;
 	int		j;
 
-	if ((i = (start->prec > start->min_width) ? start->prec : start->min_width))
-		i--;
-	j = i;
+	j = i = start->min_width;
 	if (!(start->flags.minus))
-		while (j-- > 0)
+		while (j-- > 1)
  			write(1, " ", 1);
 	if (start->l_mod == L)
 		write(1, &start->u_arg, 1);
@@ -118,7 +126,7 @@ int		ft_putchar_arg(t_start *start)
 		write(1, &c, 1);
 	}
 	if (start->flags.minus)
-		while (j-- > 0)
+		while (j-- > 1)
  			write(1, " ", 1);
-	return (i + 1);
+	return ((i) ? i : 1);
 }
