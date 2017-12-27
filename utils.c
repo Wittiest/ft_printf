@@ -15,9 +15,9 @@
 /*
 **	Should calculate exact print count of an unsigned int with (p, x, X, o, O, u, U)
 */
-int		unsigned_count(uintmax_t n, int base, t_start *start)
+size_t	unsigned_count(uintmax_t n, int base, t_start *start)
 {
-	int len;
+	size_t len;
 
 	len = 0;
 	while (++len && (n /= base));
@@ -29,9 +29,9 @@ int		unsigned_count(uintmax_t n, int base, t_start *start)
 /*
 **	Should calculate exact print count of any signed int (d, D, i)
 */
-int		signed_count(intmax_t n, t_start *start)
+size_t	signed_count(intmax_t n, t_start *start)
 {
-	int len;
+	size_t len;
 
 	len = ((n < 0) || start->flags.plus || start->flags.space) ? 1 : 0;
 	while (++len && (n /= 10));
@@ -42,8 +42,18 @@ int		escape_check(t_start *start, int *i)
 {
 	if (start->format[*i] == '%')
 	{
+		if (!(start->flags.minus) && start->min_width)
+		{
+			while (--start->min_width > 0)
+				start->ret += write(1, " ", 1);
+		}
 		(*i) += write(1, "%", 1);
 		start->ret++;
+		if (start->flags.minus && start->min_width)
+		{
+			while (--start->min_width > 0)
+				start->ret += write(1, " ", 1);
+		}
 		return (1);
 	}
 	return (0);

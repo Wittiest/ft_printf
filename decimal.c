@@ -12,14 +12,28 @@
 
 #include "ft_printf.h"
 
+char	*memset_malloc(size_t size, char c)
+{
+	size_t	i;
+	char	*str;
+
+	i = 0;
+	str = malloc(size + 1);
+	while (i < size)
+		str[i++] = c;
+	str[i] = '\0';
+	return (str);
+}
+
 int		signed_arg(t_start *start)
 {
-	char	str[100]; // malloc based on total len of #, malloc bigger
+	char	*str;
 	int		neg;
 	int		i;
-	int		p;
+	size_t	p;
 
 	p = signed_count(start->arg, start);
+	str = memset_malloc(p, (start->flags.zero) ? '0' : ' ');
 	neg = (start->arg < 0) ? write(1, "-", 1) : 0;
 	i = 0;
 	if (!start->arg && ++i)
@@ -31,18 +45,18 @@ int		signed_arg(t_start *start)
 		i++;
 	}
 	if ((start->flags.space || start->flags.plus) && !neg)
-		neg += write(1, (start->flags.space) ? " " : "+", 1);
+		neg += write(1, (start->flags.plus) ? "+" : " ", 1);
 	while (--i >= 0)
 		neg += write(1, &str[i], 1);
 	return (neg);
 }
-// externalize length modifiers based on signed and unsigned
+
 int		unsigned_arg(t_start *start)
 {
 	char	str[100];
 	int		i;
 	int		j;
-	int		p;
+	size_t	p;
 
 	p = unsigned_count(start->u_arg, 10, start);
 	i = 0;

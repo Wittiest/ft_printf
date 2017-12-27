@@ -96,11 +96,11 @@ void		parser(t_start *start)
 		{
 			printstr(ix, i, start);
 			i++;
-			if (escape_check(start, &i) && (ix = i))
-				continue ;
-			parse_flags(start, &i);
+			parse_flags(start, &i);			
 			parse_field_width(start, &i);
 			parse_prec(start, &i);
+			if (escape_check(start, &i) && (ix = i))
+				continue ;
 			parse_length_mod(start, &i);
 			start->c = start->format[i++];
 			parse_conv_char(start);
