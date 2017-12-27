@@ -49,7 +49,7 @@ int		unsigned_arg(t_start *start)
 	if (!start->u_arg && ++i)
 		str[0] = '0';
 	if (start->length_mod == H)
-		start->u_arg = (short)start->u_arg;
+		start->u_arg = (unsigned short)start->u_arg;
 	if (start->length_mod == HH)
 		start->arg = (unsigned char)start->u_arg;
 	while ((start->u_arg) > 0)
