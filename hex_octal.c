@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   hex.c                                              :+:      :+:    :+:   */
+/*   hex_octal.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpearson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -44,4 +44,22 @@ int		print_hex(t_start *start)
 		return(print_hex_upp(start->u_arg));
 	else
 		return(print_hex_low(start->u_arg, start->c == 'p'));
+}
+
+static int	print_oct(uintmax_t t, int hash)
+{
+	int		ret;
+	char	c;
+
+	ret = (hash) ? write(1, "O", 1) : 0;
+	if (t >= 8)
+		ret = print_oct((t / 8), 0);
+	c = (t % 8) + '0';
+	write(1, &c, 1);
+	return (1 + ret);
+}
+
+int		print_octal(t_start *start)
+{
+	return(print_oct(start->u_arg, start->flags.hash));
 }

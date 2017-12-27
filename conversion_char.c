@@ -12,10 +12,10 @@
 
 #include "ft_printf.h"
 
-int		(*g_funcs[])(t_start *) = 	{print_hex, print_hex, ft_putchar_arg,
-									ft_putchar_arg, ft_putstr_arg, ft_putstr_arg
-									,signed_arg, signed_arg, signed_arg, unsigned_arg,
-									unsigned_arg, print_hex, unsigned_arg, unsigned_arg}; // poO
+int		(*g_funcs[])(t_start *) = {print_hex, print_hex, ft_putchar_arg,
+							ft_putchar_arg, ft_putstr_arg, ft_putstr_arg,
+							signed_arg, signed_arg, signed_arg, unsigned_arg,
+							unsigned_arg, print_hex, print_octal, print_octal};
 char	g_conversion[15] = "xXcCsSdiDuUpoO\0";
 
 /*
@@ -27,9 +27,20 @@ char	g_conversion[15] = "xXcCsSdiDuUpoO\0";
 
 void	read_arg(t_start *start, char c)
 {
-	if (c == 'o' || c == 'O' || c == 'u' || c == 'U' || c == 'x' || c == 'X' ||
-		c == 'c' || c == 'C' || c == 'S' || c == 's' || c == 'p')
+	if (c == 'd' || c == 'D' || c == 'i')
 	{
+		if (start->length_mod == L)
+			start->arg = va_arg(start->args, long);
+		else if (start->length_mod == LL)
+			start->arg = va_arg(start->args, long long);
+		else if (start->length_mod == J)
+			start->arg = va_arg(start->args, intmax_t);
+		else if (start->length_mod == Z)
+			start->arg = va_arg(start->args, size_t);
+		else
+			start->arg = va_arg(start->args, int);
+		return ;
+	}
 		if (start->length_mod == L)
 			start->u_arg = va_arg(start->args, unsigned long);
 		else if (start->length_mod == LL)
@@ -40,18 +51,6 @@ void	read_arg(t_start *start, char c)
 			start->u_arg = va_arg(start->args, size_t);
 		else
 			start->u_arg = va_arg(start->args, unsigned int); // shorten after with typecast for certain cases
-		return ;
-	}
-	if (start->length_mod == L)
-		start->arg = va_arg(start->args, long);
-	else if (start->length_mod == LL)
-		start->arg = va_arg(start->args, long long);
-	else if (start->length_mod == J)
-		start->arg = va_arg(start->args, intmax_t);
-	else if (start->length_mod == Z)
-		start->arg = va_arg(start->args, size_t);
-	else
-		start->arg = va_arg(start->args, int); // shorten after with typecast for certain cases
 }
 
 void	parse_conv_char(t_start *start)
