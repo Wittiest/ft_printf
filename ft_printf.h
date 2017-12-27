@@ -63,4 +63,5 @@ int		print_hex(t_start *start);
 int		ft_putchar_arg(t_start *start);
 int		ft_putstr_arg(t_start *start);
 int		signed_arg(t_start *start);
+int		unsigned_arg(t_start *start);
 #endif

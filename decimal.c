@@ -33,3 +33,24 @@ int		signed_arg(t_start *start)
 		write(1, &str[i], 1);
 	return (neg);
 }
+
+int		unsigned_arg(t_start *start)
+{
+	char	str[100];
+	int		i;
+	int		j;
+
+	if (!start->u_arg)
+		write(1, "0", 1);
+	i = 0;
+	while ((start->u_arg) > 0)
+	{
+		str[i] = '0' + (start->u_arg % 10);
+		start->u_arg /= 10;
+		i++;
+	}
+	j = i;
+	while (--i >= 0)
+		write(1, &str[i], 1);
+	return (j);
+}
