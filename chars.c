@@ -43,18 +43,13 @@ static int		ft_putstr_wide(wchar_t *str)
 static int		ft_putstrr(char *str)
 {
 	int		i;
-	// char	c;
 
 	i = 0;
 	if (!str)
 		return (write(1, "(null)", 6));
 	while (str[i])
-	{
-		// c = (char)str[i];
-		write(1, &str[i], 1);
 		i++;
-	}
-	return (i);
+	return(write(1, &str[0], i));
 }
 
 // static	int		ft_str_count(t_start *start)
