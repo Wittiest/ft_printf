@@ -27,14 +27,14 @@ int		ft_putchar_arg(t_start *start)
 
 static int		ft_putstr_wide(wchar_t *str)
 {
-	int		i;
-	
-	i = 0;
+	wchar_t		*tmp;
+
+	tmp = str;
 	if (!str)
 		return (write(1, "(null)", 6));
-	while (str[i])
-		i++;
-	return(write(1, &str[0], i*4));
+	while (str)
+		str++;
+	return(write(1, &str[0], str-tmp));
 }
 
 static int		ft_putstrr(char *str)
