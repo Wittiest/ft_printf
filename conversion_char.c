@@ -25,7 +25,7 @@ char	g_conversion[15] = "xXcCsSdiDuUpoO\0";
 **	later to deal with the case of an int passed with H for example.
 */
 
-void	read_arg(t_start *start, char c)
+static void	read_arg(t_start *start, char c)
 {
 	if (c == 'd' || c == 'D' || c == 'i')
 	{
@@ -53,7 +53,7 @@ void	read_arg(t_start *start, char c)
 			start->u_arg = va_arg(start->args, unsigned int);
 }
 
-void	demote_int(t_start *start)
+static void	demote_int(t_start *start)
 {
 	if (start->c == 'd' || start->c == 'i')
 	{
@@ -78,6 +78,7 @@ void	parse_conv_char(t_start *start)
 	if (start->c == 'D' || start->c == 'O' || start->c == 'U')
 		start->l_mod = L;
 	read_arg(start, start->c);
+	demote_int(start);
 	if (start->c == 'C' || start->c == 'S')
 		start->l_mod = L;
 	i = 0;
