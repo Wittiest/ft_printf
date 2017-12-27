@@ -12,14 +12,16 @@
 
 #include "ft_printf.h"
 
-static int		print_hex_low(uintmax_t	u_arg)
+static int		print_hex_low(uintmax_t	u_arg, int p)
 {
 	char	low_hex[17] = "0123456789abcdef";
 	int		i;
 
 	i = 0;
+	if (p)
+		i+= write(1, "0x", 2);
 	if (u_arg >= 16)
-		i = print_hex_low(u_arg / 16);
+		i = print_hex_low(u_arg / 16, 0);
 	write(1, &low_hex[u_arg % 16], 1);
 	return (1 + i);
 }
