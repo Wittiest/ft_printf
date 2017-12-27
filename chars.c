@@ -33,8 +33,8 @@ static int		ft_putstr_wide(wchar_t *str)
 	if (!str)
 		return (write(1, "(null)", 6));
 	while (*str)
-		str++;
-	return(write(1, &str[0], str-tmp));
+		write(1, str++, 1);
+	return(str - tmp);
 }
 
 static int		ft_putstrr(char *str)
