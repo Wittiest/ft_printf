@@ -40,9 +40,9 @@ int		print_hex(t_start *start)
 {
 
 	if (start->c == 'X')
-		return(i + print_hex_upp(start->u_arg, start->flags.hash));
+		return(print_hex_upp(start->u_arg, start->flags.hash));
 	else
-		return(i + print_hex_low(start->u_arg, start->c == 'p' ||
+		return(print_hex_low(start->u_arg, start->c == 'p' ||
 											start->flags.hash));
 }
 
