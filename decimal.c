@@ -30,8 +30,8 @@ int		signed_arg(t_start *start)
 		start->arg /= 10;
 		i++;
 	}
-	if (start->flags.plus && !neg)
-		neg += write(1, "+", 1);	
+	if ((start->flags.space || start->flags.plus) && !neg)
+		neg += write(1, (start->flags.space) ? " " : "+", 1);
 	while (--i >= 0)
 		neg += write(1, &str[i], 1);
 	return (neg);
