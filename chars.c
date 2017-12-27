@@ -32,7 +32,7 @@ static int		ft_putstr_wide(wchar_t *str)
 	tmp = str;
 	if (!str)
 		return (write(1, "(null)", 6));
-	while (str)
+	while (*str)
 		str++;
 	return(write(1, &str[0], str-tmp));
 }
