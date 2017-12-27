@@ -14,14 +14,12 @@
 
 int		signed_arg(t_start *start)
 {
-	char	str[100];
+	char	str[100]; // malloc based on total len of #, malloc bigger
 	int		neg;
 	int		i;
+	int		p;
 
-	if (start->length_mod == H)
-		start->arg = (short)start->arg;
-	if (start->length_mod == HH)
-		start->arg = (signed char)start->arg;
+	p = signed_count(start->arg);
 	neg = (start->arg < 0) ? write(1, "-", 1) : 0;
 	i = 0;
 	if (!start->arg && ++i)
@@ -33,25 +31,23 @@ int		signed_arg(t_start *start)
 		i++;
 	}
 	if (start->flags.plus && !neg)
-		neg+= write(1, "+", 1);	
+		neg += write(1, "+", 1);	
 	while (--i >= 0)
 		neg += write(1, &str[i], 1);
 	return (neg);
 }
-
+// externalize length modifiers based on signed and unsigned
 int		unsigned_arg(t_start *start)
 {
 	char	str[100];
 	int		i;
 	int		j;
+	int		p;
 
+	p = unsigned_count(start->u_arg, 10);
 	i = 0;
 	if (!start->u_arg && ++i)
 		str[0] = '0';
-	if (start->length_mod == H)
-		start->u_arg = (unsigned short)start->u_arg;
-	if (start->length_mod == HH)
-		start->arg = (unsigned char)start->u_arg;
 	while ((start->u_arg) > 0)
 	{
 		str[i] = '0' + (start->u_arg % 10);

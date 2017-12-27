@@ -23,7 +23,7 @@ static int		print_hex_low(uintmax_t	u_arg, int p, int hash)
 	write(1, &low_hex[u_arg % 16], 1);
 	return (1 + i);
 }
-
+// numlen for hex, oct, regular int, include neg one signed, one unsigned, count with base includeedc
 static int		print_hex_upp(uintmax_t	u_arg, int hash)
 {
 	char	upp_hex[17] = "0123456789ABCDEF";
@@ -38,10 +38,7 @@ static int		print_hex_upp(uintmax_t	u_arg, int hash)
 
 int		print_hex(t_start *start)
 {
-	if (start->length_mod == H)
-		start->u_arg = (short)start->u_arg;
-	else if (start->length_mod == HH)
-		start->u_arg = (unsigned char)start->u_arg;
+	//int		unsigned_count(uintmax_t n, int base);
 	if (start->c == 'X')
 		return(print_hex_upp(start->u_arg, start->flags.hash));
 	else
@@ -63,9 +60,6 @@ static int	print_oct(uintmax_t t, int hash)
 
 int		print_octal(t_start *start)
 {
-	if (start->length_mod == H)
-		start->u_arg = (short)start->u_arg;
-	else if (start->length_mod == HH)
-		start->u_arg = (unsigned char)start->u_arg;
+	//int		unsigned_count(uintmax_t n, int base);
 	return(print_oct(start->u_arg, start->flags.hash));
 }

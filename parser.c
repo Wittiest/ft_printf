@@ -63,24 +63,24 @@ static void	parse_precision(t_start *start, int *i)
 static void	parse_length_mod(t_start *start, int *i)
 {
 	if (start->format[*i] == 'z' && (*i)++)
-		start->length_mod = Z;
+		start->l_mod = Z;
 	else if (start->format[*i] == 'j' && (*i)++)
-		start->length_mod = J;
+		start->l_mod = J;
 	else if (start->format[*i] == 'l')
 	{
 		(*i)++;
 		if (start->format[*i] == 'l' && (*i)++)
-			start->length_mod = LL;
+			start->l_mod = LL;
 		else
-			start->length_mod = L;
+			start->l_mod = L;
 	}
 	else if (start->format[*i] == 'h')
 	{
 		(*i)++;
 		if (start->format[*i] == 'h' && (*i)++)
-			start->length_mod = HH;
+			start->l_mod = HH;
 		else
-			start->length_mod = H;
+			start->l_mod = H;
 	}		
 }
 

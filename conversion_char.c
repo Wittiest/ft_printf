@@ -29,28 +29,46 @@ void	read_arg(t_start *start, char c)
 {
 	if (c == 'd' || c == 'D' || c == 'i')
 	{
-		if (start->length_mod == L)
+		if (start->l_mod == L)
 			start->arg = va_arg(start->args, long);
-		else if (start->length_mod == LL)
+		else if (start->l_mod == LL)
 			start->arg = va_arg(start->args, long long);
-		else if (start->length_mod == J)
+		else if (start->l_mod == J)
 			start->arg = va_arg(start->args, intmax_t);
-		else if (start->length_mod == Z)
+		else if (start->l_mod == Z)
 			start->arg = va_arg(start->args, size_t);
 		else
 			start->arg = va_arg(start->args, int);
 		return ;
 	}
-		if (start->length_mod == L)
+		if (start->l_mod == L)
 			start->u_arg = va_arg(start->args, unsigned long);
-		else if (start->length_mod == LL)
+		else if (start->l_mod == LL)
 			start->u_arg = va_arg(start->args, unsigned long long);
-		else if (start->length_mod == J)
+		else if (start->l_mod == J)
 			start->u_arg = va_arg(start->args, uintmax_t);
-		else if (start->length_mod == Z || c == 'S' || c == 's' || c == 'p')
+		else if (start->l_mod == Z || c == 'S' || c == 's' || c == 'p')
 			start->u_arg = va_arg(start->args, size_t);
 		else
-			start->u_arg = va_arg(start->args, unsigned int); // shorten after with typecast for certain cases
+			start->u_arg = va_arg(start->args, unsigned int);
+}
+
+void	demote_int(t_start *start)
+{
+	if (start->c == 'd' || start->c == 'i')
+	{
+		if (start->l_mod == H)
+			start->arg = (short)start->arg;
+		else if (start->l_mod == HH)
+			start->arg = (signed char)start->arg;
+	}
+	else
+	{
+		if (start->l_mod == H)
+			start->arg = (unsigned short)start->arg;
+		else if (start->l_mod == HH)
+			start->arg = (unsigned char)start->arg;		
+	}
 }
 
 void	parse_conv_char(t_start *start)
@@ -58,10 +76,10 @@ void	parse_conv_char(t_start *start)
 	int			i;
 
 	if (start->c == 'D' || start->c == 'O' || start->c == 'U')
-		start->length_mod = L;
+		start->l_mod = L;
 	read_arg(start, start->c);
 	if (start->c == 'C' || start->c == 'S')
-		start->length_mod = L;
+		start->l_mod = L;
 	i = 0;
 	while (g_conversion[i])
 	{
@@ -81,8 +99,4 @@ void	parse_conv_char(t_start *start)
 		// if precision
 			// if s, precision determines max characters
 		// if decimal, max of min_width, precision, num size
-	// pass string to function with dispatch table (D == d, O == o, U == u due to previous l conversion)
-		//typecast arg
-		//print shit
-		//return int printed amount
 }

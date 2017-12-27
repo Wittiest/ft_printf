@@ -16,7 +16,7 @@ int		ft_putchar_arg(t_start *start)
 {
 	char	c;
 
-	if (start->length_mod == L)
+	if (start->l_mod == L)
 		return(write(1, &start->u_arg, 1));
 	else
 	{
@@ -59,7 +59,7 @@ static int		ft_putstrr(char *str)
 
 int		ft_putstr_arg(t_start *start)
 {
-	if (start->length_mod == L)
+	if (start->l_mod == L)
 		return(ft_putstr_wide((wchar_t *)start->u_arg));
 	else
 		return(ft_putstrr((char *)start->u_arg));

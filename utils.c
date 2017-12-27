@@ -12,6 +12,24 @@
 
 #include "ft_printf.h"
 
+int		unsigned_count(uintmax_t n, int base)
+{
+	int len;
+
+	len = 0;
+	while (++len && (n /= base));
+	return (len);
+}
+
+int		signed_count(intmax_t n)
+{
+	int len;
+
+	len = (n < 0) ? 1 : 0;
+	while (++len && (n /= 10));
+	return (len);
+}
+
 int		escape_check(t_start *start, int *i)
 {
 	if (start->format[*i] == '%')
