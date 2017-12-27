@@ -43,21 +43,45 @@ static int		ft_putstr_wide(wchar_t *str)
 static int		ft_putstrr(char *str)
 {
 	int		i;
-	char	c;
+	// char	c;
 
 	i = 0;
 	if (!str)
 		return (write(1, "(null)", 6));
 	while (str[i])
 	{
-		c = (char)str[i];
-		write(1, &c, 1);
+		// c = (char)str[i];
+		write(1, &str[i], 1);
 		i++;
 	}
 	return (i);
 }
 
-// static	int		ft_str_count(char *str, wchar_t *str, )
+// static	int		ft_str_count(t_start *start)
+// {
+// 	int		len;
+// 	char	*str;
+// 	wchar_t	*w_str;
+
+// 	len = 0;
+// 	if (start->l_mod == L)
+// 	{
+// 		w_str = (wchar_t *)start->u_arg;
+// 		if (!w_str)
+// 			return (6);
+// 		while (w_str[len])
+// 			len++;
+// 	}
+// 	else
+// 	{
+// 		str = (char *)start->u_arg;
+// 		if (!str)
+// 			return (6);
+// 		while (str[len])
+// 			len++;
+// 	}
+// 	return (len);
+// }
 
 int		ft_putstr_arg(t_start *start)
 {
