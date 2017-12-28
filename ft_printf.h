@@ -59,8 +59,8 @@ int		escape_check(t_start *start, int *i);
 void	parse_conv_char(t_start *start);
 void	parser(t_start *start);
 size_t	signed_count(intmax_t n, t_start *start);
-size_t	unsigned_count(uintmax_t n, int base, t_start *start);
-void	string_pad(t_start *start, int print_len, char *str, char *w_str);
+size_t	unsigned_count(uintmax_t n, int base);
+char	*memset_malloc(size_t size, char c);
 
 int		print_hex(t_start *start);
 int		ft_putstr_arg(t_start *start);

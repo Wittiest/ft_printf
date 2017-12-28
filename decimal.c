@@ -12,19 +12,6 @@
 
 #include "ft_printf.h"
 
-char	*memset_malloc(size_t size, char c)
-{
-	size_t	i;
-	char	*str;
-
-	i = 0;
-	str = malloc(size + 1);
-	while (i < size)
-		str[i++] = c;
-	str[i] = '\0';
-	return (str);
-}
-
 int		signed_arg(t_start *start)
 {
 	char	*str;
@@ -58,7 +45,7 @@ int		unsigned_arg(t_start *start)
 	int		j;
 	size_t	p;
 
-	p = unsigned_count(start->u_arg, 10, start);
+	p = unsigned_count(start->u_arg, 10);
 	i = 0;
 	if (!start->u_arg && ++i)
 		str[0] = '0';

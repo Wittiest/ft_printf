@@ -12,23 +12,36 @@
 
 #include "ft_printf.h"
 
+char	*memset_malloc(size_t size, char c)
+{
+	size_t	i;
+	char	*str;
+
+	i = 0;
+	str = malloc(size + 1);
+	while (i < size)
+		str[i++] = c;
+	str[i] = '\0';
+	return (str);
+}
+
 /*
 **	Should calculate exact print count of an unsigned int with (p, x, X, o, O, u, U)
 */
-size_t	unsigned_count(uintmax_t n, int base, t_start *start)
+
+size_t	unsigned_count(uintmax_t n, int base)
 {
 	size_t len;
 
 	len = 0;
 	while (++len && (n /= base));
-	len += (start->flags.hash * 2) + (start->flags.plus || start->flags.space);
-	if (start->c == 'o' || start->c == 'O')
-		len -= start->flags.hash;
 	return (len);
 }
+
 /*
 **	Should calculate exact print count of any signed int (d, D, i)
 */
+
 size_t	signed_count(intmax_t n, t_start *start)
 {
 	size_t len;

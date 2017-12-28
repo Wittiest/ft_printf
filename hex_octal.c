@@ -35,15 +35,33 @@ static int		print_hex_upp(uintmax_t	u_arg, int hash)
 	return (1 + i);
 }
 
-int		print_hex(t_start *start)
+int		print_hex(t_start *start) // PRECISION??
 {
-	int		total_print_len;
+	size_t	total_print_len;
+	size_t	hex;
+	size_t	printed;
 
-	total_print_len = unsigned_count(start->u_arg, 16, start);
-	if (start->c == 'X')
-		return(print_hex_upp(start->u_arg, start->flags.hash));
+	hex = unsigned_count(start->u_arg, 16);
+	total_print_len = hex + ((start->flags.hash || (start->c == 'p')) * 2);
+	if (start->flags.minus)
+	{
+		if (start->c == 'X')
+			printed = print_hex_upp(start->u_arg, start->flags.hash);
+		else
+			printed = print_hex_low(start->u_arg, start->c == 'p', start->flags.hash);
+		while (++printed <= total_print_len)
+			write(1, ((start->flags.zero) ? "0" : " "), 1);
+	}
 	else
-		return(print_hex_low(start->u_arg, start->c == 'p', start->flags.hash));
+	{
+		if (start->c == 'X')
+			print_hex_upp(start->u_arg, start->flags.hash);
+		else
+			print_hex_low(start->u_arg, start->c == 'p', start->flags.hash);
+		while (++hex <= total_print_len)
+			write(1, ((start->flags.zero) ? "0" : " "), 1);
+	}
+	return (total_print_len);
 }
 
 static int	print_oct(uintmax_t t, int hash)
@@ -61,8 +79,8 @@ static int	print_oct(uintmax_t t, int hash)
 
 int		print_octal(t_start *start)
 {
-	int		total_print_len;
+	size_t	total_len;
 
-	total_print_len = unsigned_count(start->u_arg, 8, start);
+	total_len = unsigned_count(start->u_arg, 8) + start->flags.hash;
 	return(print_oct(start->u_arg, start->flags.hash));
 }
