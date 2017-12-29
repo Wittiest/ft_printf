@@ -41,15 +41,15 @@ int		print_hex(t_start *start) // PRECISION??
 	size_t	hex;
 	size_t	printed;
 
-	hex = unsigned_count(start->u_arg, 16);
-	total_print_len = hex + ((start->flags.hash || (start->c == 'p')) * 2);
+	hex = unsigned_count(start->u_arg, 16) + ((start->flags.hash || (start->c == 'p')) * 2);
+	total_print_len = (start->min_width > (int)hex) ? start->min_width : hex;
 	if (start->flags.minus)
 	{
 		if (start->c == 'X')
 			printed = print_hex_upp(start->u_arg, start->flags.hash);
 		else
 			printed = print_hex_low(start->u_arg, start->c == 'p', start->flags.hash);
-		while (++printed <= total_print_len)
+		while (printed++ < total_print_len)
 			write(1, ((start->flags.zero) ? "0" : " "), 1);
 	}
 	else
