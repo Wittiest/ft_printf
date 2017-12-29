@@ -43,9 +43,9 @@ int		unsigned_arg(t_start *start)
 	char	str[100];
 	int		i;
 	int		j;
-	size_t	p;
+	// size_t	p;
 
-	p = unsigned_count(start->u_arg, 10);
+	// p = unsigned_count(start->u_arg, 10);
 	i = 0;
 	if (!start->u_arg && ++i)
 		str[0] = '0';
