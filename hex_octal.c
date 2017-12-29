@@ -43,19 +43,18 @@ int		print_hex(t_start *start) // PRECISION??
 
 	printed = 0;
 	hex = unsigned_count(start->u_arg, 16) + (((start->flags.hash && start->u_arg) || (start->c == 'p')) * 2);
-	if (start->prec < hex)
-		start->prec = 0;
+	start->prec = (start->prec < hex) ? 0 : start->prec;
 	total_print_len = (start->min_width > hex) ? start->min_width : hex;
 	if (start->flags.minus)
 	{
-		while (printed++ < start->prec)
+		while ((start->prec) ? (printed++ < start->prec) : 0)
 			write(1, "0", 1);
 		if (start->c == 'X')
 			printed += print_hex_upp(start->u_arg, start->flags.hash);
 		else
 			printed += print_hex_low(start->u_arg, start->c == 'p', start->flags.hash);
 		while (printed++ < total_print_len)
-			write(1, ((start->flags.zero && !start->prec) ? "0" : " "), 1);
+			write(1, " ", 1);
 	}
 	else
 	{

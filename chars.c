@@ -99,8 +99,20 @@ int			ft_putstr_arg(t_start *start)
 	limit = (start->prec > start->min_width) ? start->prec : start->min_width;
 	count = ft_str_count(start);
 	ret = (limit > count) ? limit : count;
-	if (start->prec && (start->min_width == 0))
-		ret = (start->prec < count) ? start->prec : count;
+	if (start->prec)
+	{
+		if (start->min_width == 0)
+			ret = (start->prec < count) ? start->prec : count;
+		else if (start->prec < count)
+		{
+			if (start->min_width > start->prec)
+				ret = start->min_width;
+			else
+				ret = ((start->min_width) > count) ? (start->min_width) : count;
+		}
+		else if ((start->prec > start->min_width))
+			ret = (start->min_width > count) ? start->min_width : count;
+	}
 	if (start->l_mod == L)
 		ft_putstr_wide(start, (wchar_t *)start->u_arg, count, limit);
 	else
