@@ -44,6 +44,9 @@ static void	parse_field_width(t_start *start, int *i)
 	}
 }
 
+/*
+**	start->zero_prec is used to store difference between no precision and 0 precision
+*/
 static void	parse_prec(t_start *start, int *i)
 {
 	// add handling for *
@@ -51,6 +54,8 @@ static void	parse_prec(t_start *start, int *i)
 	if (start->format[*i] == '.')
 	{
 		(*i)++;
+		if (!((start->format[*i] >= '0') && (start->format[*i] <= '9')) || (start->format[*i] == '0'))
+			start->zero_prec = 1;
 		while (start->format[*i] && (start->format[*i] >= '0') && (start->format[*i] <= '9'))
 		{
 			start->prec *= 10;

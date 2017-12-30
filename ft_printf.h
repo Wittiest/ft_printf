@@ -47,6 +47,7 @@ typedef struct	s_start
 	t_flags		flags;
 	int			min_width;
 	int			prec;
+	int			zero_prec;
 	short		l_mod;
 	intmax_t	arg;
 	uintmax_t	u_arg;
