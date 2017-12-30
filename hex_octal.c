@@ -63,7 +63,7 @@ int		print_hex(t_start *start)
 	else
 	{
 		while ((((start->prec) ? (printed++) : (hex++)) < (total_print_len - start->prec)))
-			write(1, ((start->flags.zero && !start->prec) ? "0" : " "), 1);
+			write(1, ((start->flags.zero && !(start->prec)) ? "0" : " "), 1);
 		while (hex++ < start->prec)
 			write(1, "0", 1);
 		if (start->c == 'X' && (!start->zero_prec || start->u_arg))
