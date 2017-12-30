@@ -125,10 +125,3 @@ int		print_octal(t_start *start)
 	}
 	return (total_len);
 }
-
-/*
-# 0094 (int)
-  ft_printf("@moulitest: %5.o %5.0o", 0, 0);
-  1. (   23) -->@moulitest:          <--
-  2. (   23) -->@moulitest:            <--
-*/

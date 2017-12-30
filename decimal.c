@@ -12,29 +12,35 @@
 
 #include "ft_printf.h"
 
-int		signed_arg(t_start *start)
+static int	signed_arg(intmax_t arg, int neg)
 {
 	char	str[100];
-	int		neg;
 	int		i;
-	size_t	p;
 
-	p = signed_count(start->arg, start);
-	neg = (start->arg < 0) ? write(1, "-", 1) : 0;
 	i = 0;
-	if (!start->arg && ++i)
+	if (!arg && ++i)
 		str[0] = '0';
-	while ((start->arg) > 0 || ((neg) && (start->arg < 0)))
+	while ((arg) > 0 || ((neg) && (arg < 0)))
 	{
-		str[i] = '0' + ((neg) ? -(start->arg % 10) : (start->arg % 10));
-		start->arg /= 10;
+		str[i] = '0' + ((neg) ? -(arg % 10) : (arg % 10));
+		arg /= 10;
 		i++;
 	}
-	if ((start->flags.space || start->flags.plus) && !neg)
-		neg += write(1, (start->flags.plus) ? "+" : " ", 1);
 	while (--i >= 0)
 		neg += write(1, &str[i], 1);
 	return (neg);
+}
+
+int		signed_handler(t_start *start)
+{
+	int		p;
+	int		neg;
+
+	neg = (start->arg < 0) ? write(1, "-", 1) : 0;
+	p = signed_count(start->arg, start);
+	if ((start->flags.space || start->flags.plus) && !neg)
+		start->ret += write(1, (start->flags.plus) ? "+" : " ", 1);
+	return(signed_arg(start->arg, neg));
 }
 
 static int	unsigned_arg(uintmax_t u_arg)
@@ -60,9 +66,29 @@ static int	unsigned_arg(uintmax_t u_arg)
 
 int		unsigned_arg_handler(t_start *start)
 {
-	int		ret;
+	int		un;
+	int		printed;
+	int		total_len;
 
-	ret = unsigned_count(start->u_arg, 10);
-	unsigned_arg(start->u_arg);
-	return (ret);
+	printed = 0;
+	un = unsigned_count(start->u_arg, 10);
+	total_len = (start->min_width > un) ? start->min_width : un;
+	if (start->prec > start->min_width)
+	{
+		total_len = (total_len > start->prec) ? total_len : start->prec;
+		start->flags.zero = 1;
+	}
+	if (start->flags.minus)
+	{
+		printed += unsigned_arg(start->u_arg);
+		while (printed++ < start->min_width)
+			write(1, ((start->flags.zero) ? "0" : " "), 1);
+	}
+	else
+	{
+		while (un++ < total_len)
+			write(1, ((start->flags.zero) ? "0" : " "), 1);
+		unsigned_arg(start->u_arg);
+	}
+	return (total_len);
 }
