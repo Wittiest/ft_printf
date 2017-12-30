@@ -42,10 +42,13 @@ int		print_hex(t_start *start)
 	int		printed;
 
 	printed = 0;
+	fix_prefix(start);
 	hex = unsigned_count(start->u_arg, 16) + (((start->flags.hash && start->u_arg) || (start->c == 'p')) * 2);
 	start->prec = (start->prec < hex) ? 0 : start->prec;
 	total_print_len = (start->min_width > hex) ? start->min_width : hex;
-	total_print_len -= (!start->zero_prec || start->u_arg) ? 0 : 1;
+	if (!start->min_width)
+		total_print_len -= ((!start->zero_prec || start->u_arg)) ? 0 : 1;
+	hex -= ((!start->zero_prec || start->u_arg)) ? 0 : 1;
 	if (start->flags.minus)
 	{
 		while ((start->prec) ? (printed++ < start->prec) : 0)

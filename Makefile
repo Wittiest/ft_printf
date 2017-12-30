@@ -17,7 +17,7 @@ CFLAGS		=	-Wall -Wextra -Werror -I ./
 NAME		=	libftprintf.a
 
 FILENAMES	=	ft_printf.c utils.c conversion_char.c parser.c chars.c \
-				decimal.c hex_octal.c
+				decimal.c hex_octal.c fix_prefix.c
 
 OBJECTS		= ${FILENAMES:.c=.o}
 

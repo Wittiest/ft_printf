@@ -62,6 +62,7 @@ void	parser(t_start *start);
 size_t	signed_count(intmax_t n, t_start *start);
 size_t	unsigned_count(uintmax_t n, int base);
 char	*memset_malloc(size_t size, char c);
+void	fix_prefix(t_start *start);
 
 int		print_hex(t_start *start);
 int		ft_putstr_arg(t_start *start);
