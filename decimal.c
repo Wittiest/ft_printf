@@ -44,14 +44,20 @@ int		signed_handler(t_start *start)
 	start->prec = (start->prec < p) ? 0 : start->prec;
 	if (start->prec > start->min_width)
 	{
-		total_len = (total_len > start->prec) ? total_len : start->prec;
+		total_len = (total_len > (start->prec + (start->flags.space ||
+		start->flags.plus || neg))) ? total_len : (start->prec +
+		(start->flags.space || start->flags.plus || neg));
 		start->flags.zero = 1;
 	}
-	if ((start->flags.space || start->flags.plus) && !neg)
-		printed += write(1, (start->flags.plus) ? "+" : " ", 1);
+	if (!start->min_width)
+		total_len -= ((start->zero_prec && !start->arg)) ? 1 : 0;
+	if (neg && start->flags.zero)
+		write(1, "-", 1);
 	if (start->flags.minus)
 	{
-		if (neg)
+		if ((start->flags.space || start->flags.plus) && !neg)
+			printed += write(1, (start->flags.plus) ? "+" : " ", 1);
+		if (neg && !start->flags.zero)
 			write(1, "-", 1);
 		while (((p++ - (start->flags.space || start->flags.plus || neg)) < start->prec) && ++printed)
 			write(1, "0", 1);
@@ -62,15 +68,17 @@ int		signed_handler(t_start *start)
 	}
 	else
 	{
-		if (neg && start->flags.zero)
-			write(1, "-", 1);
-		while ((((start->prec) ? (printed++) : (p++)) < (total_len - start->prec)))
+		if ((start->flags.space || start->flags.plus) && !neg)
+			printed += write(1, (start->flags.plus) ? "+" : " ", 1);
+		// if (neg && start->flags.zero)
+		// 	write(1, "-", 1);
+		while ((((start->prec || (start->zero_prec && !start->arg)) ? (printed++) : (p++)) < (total_len - start->prec)))
 			write(1, ((start->flags.zero && !start->prec) ? "0" : " "), 1);
-		while (p++ < start->prec)
+		while ((p++ - (neg || start->flags.space || start->flags.plus)) < start->prec)
 			write(1, "0", 1);
 		if (neg && !start->flags.zero)
 			write(1, "-", 1);
-		if (!start->zero_prec || start->arg || !write(1, " ", 1))
+		if (!start->zero_prec || start->arg)
 			signed_arg(start->arg, neg);
 	}
 	return(total_len);
