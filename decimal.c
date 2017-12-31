@@ -68,13 +68,13 @@ int		signed_handler(t_start *start)
 	}
 	else
 	{
-		if ((start->flags.space || start->flags.plus) && !neg)
+		if (((start->flags.space || start->flags.plus) && !neg) && (!(start->min_width && !start->flags.zero) || printed++))
 			printed += write(1, (start->flags.plus) ? "+" : " ", 1);
-		// if (neg && start->flags.zero)
-		// 	write(1, "-", 1);
 		while ((((start->prec || (start->zero_prec && !start->arg)) ? (printed++) : (p++)) < (total_len - start->prec)))
 			write(1, ((start->flags.zero && !start->prec) ? "0" : " "), 1);
-		while ((p++ - (neg || start->flags.space || start->flags.plus)) < start->prec)
+		if ((start->min_width && !start->flags.zero) && (start->flags.space || start->flags.plus) && !neg)
+			p -= write(1, (start->flags.plus) ? "+" : " ", 1);
+		while ((p++ - neg < start->prec))
 			write(1, "0", 1);
 		if (neg && !start->flags.zero)
 			write(1, "-", 1);
