@@ -12,10 +12,6 @@
 
 #include "ft_printf.h"
 
-/*
-**	Should calculate exact print count of an unsigned int with (p, x, X, o, O, u, U)
-*/
-
 size_t	unsigned_count(uintmax_t n, int base)
 {
 	size_t len;
@@ -24,10 +20,6 @@ size_t	unsigned_count(uintmax_t n, int base)
 	while (++len && (n /= base));
 	return (len);
 }
-
-/*
-**	Should calculate exact print count of any signed int (d, D, i)
-*/
 
 int		signed_count(intmax_t n)
 {

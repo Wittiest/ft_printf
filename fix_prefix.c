@@ -33,9 +33,3 @@ void	fix_prefix(t_start *start)
 		start->flags.hash = 0;
 	}
 }
-/*
-# 0044 (int)
-  ft_printf("%#08x", 42);
-  1. (    8) -->00000x2a<--
-  2. (    8) -->0x00002a<--
-  */

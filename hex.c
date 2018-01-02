@@ -35,20 +35,8 @@ static int		print_hex_upp(uintmax_t	u_arg, int hash)
 	return (1 + i);
 }
 
-int		print_hex(t_start *start)
+static void	print_hex_2(t_start *start, int printed, int hex, int tot)
 {
-	int		total_print_len;
-	int		hex;
-	int		printed;
-
-	printed = 0;
-	fix_prefix(start);
-	hex = unsigned_count(start->u_arg, 16) + (((start->flags.hash && start->u_arg) || (start->c == 'p')) * 2);
-	start->prec = (start->prec < hex) ? 0 : start->prec;
-	total_print_len = (start->min_width > hex) ? start->min_width : hex;
-	if (!start->min_width)
-		total_print_len -= ((!start->zero_prec || start->u_arg)) ? 0 : 1;
-	hex -= ((!start->zero_prec || start->u_arg)) ? 0 : 1;
 	if (start->flags.minus)
 	{
 		while ((start->prec) ? (printed++ < start->prec) : 0)
@@ -56,13 +44,14 @@ int		print_hex(t_start *start)
 		if (start->c == 'X' && (!start->zero_prec || start->u_arg))
 			printed += print_hex_upp(start->u_arg, start->flags.hash);
 		else if (!start->zero_prec || start->u_arg)
-			printed += print_hex_low(start->u_arg, start->c == 'p', start->flags.hash);
-		while (printed++ < total_print_len)
+			printed += print_hex_low(start->u_arg, start->c == 'p',
+			start->flags.hash);
+		while (printed++ < tot)
 			write(1, " ", 1);
 	}
 	else
 	{
-		while ((((start->prec) ? (printed++) : (hex++)) < (total_print_len - start->prec)))
+		while ((((start->prec) ? (printed++) : (hex++)) < (tot - start->prec)))
 			write(1, ((start->flags.zero && !(start->prec)) ? "0" : " "), 1);
 		while (hex++ < start->prec)
 			write(1, "0", 1);
@@ -71,57 +60,23 @@ int		print_hex(t_start *start)
 		else if (!start->zero_prec || start->u_arg)
 			print_hex_low(start->u_arg, start->c == 'p', start->flags.hash);
 	}
-	return (total_print_len);
 }
 
-static int	print_oct(uintmax_t t, int hash)
+int		print_hex(t_start *start)
 {
-	int		ret;
-	char	c;
-
-	ret = (hash && t) ? write(1, "0", 1) : 0;
-	if (t >= 8)
-		ret += print_oct((t / 8), 0);
-	c = (t % 8) + '0';
-	write(1, &c, 1);
-	return (1 + ret);
-}
-
-int		print_octal(t_start *start)
-{
-	int		total_len;
-	int		oct;
+	int		total_print_len;
+	int		hex;
 	int		printed;
 
 	printed = 0;
 	fix_prefix(start);
-	oct = unsigned_count(start->u_arg, 8) + (start->flags.hash && start->u_arg);
-	start->prec = (start->prec < oct) ? 0 : start->prec;
-	total_len = (start->min_width > oct) ? start->min_width : oct;
-	if (!start->min_width && !start->flags.hash)
-		total_len -= ((!start->zero_prec || start->u_arg)) ? 0 : 1;
-	if (start->prec > start->min_width)
-		total_len = (total_len > start->prec) ? total_len : start->prec;
-	if (start->flags.minus)
-	{
-		printed = oct;
-		while ((start->prec) ? (printed++ < (start->prec)) : 0)
-			write(1, "0", 1);
-		printed -= (start->prec) ? oct + 1: oct;
-		printed += print_oct(start->u_arg, start->flags.hash);
-		while (printed++ < total_len)
-			write(1, " ", 1);
-	}
-	else
-	{
-		if (start->zero_prec)
-			oct = start->prec;
-		while ((((start->prec) ? (printed++) : (oct++)) < (total_len - start->prec)))
-			write(1, ((start->flags.zero && !start->prec) ? "0" : " "), 1);
-		while (oct++ < start->prec)
-			write(1, "0", 1);
-		if ((!start->zero_prec || start->u_arg))
-			print_oct(start->u_arg, start->flags.hash);
-	}
-	return (total_len);
+	hex = unsigned_count(start->u_arg, 16) +
+	(((start->flags.hash && start->u_arg) || (start->c == 'p')) * 2);
+	start->prec = (start->prec < hex) ? 0 : start->prec;
+	total_print_len = (start->min_width > hex) ? start->min_width : hex;
+	if (!start->min_width)
+		total_print_len -= ((!start->zero_prec || start->u_arg)) ? 0 : 1;
+	hex -= ((!start->zero_prec || start->u_arg)) ? 0 : 1;
+	print_hex_2(start, printed, hex, total_print_len);
+	return (total_print_len);
 }
