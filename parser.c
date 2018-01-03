@@ -67,6 +67,11 @@ static void	parse_prec(t_start *start, int *i)
 			(*i)++;
 		}
 	}
+	else if (start->format[*i] == '*')
+	{
+		(*i)++;
+		start->prec = va_arg(start->args, int);
+	}
 }
 
 static void	parse_length_mod(t_start *start, int *i)

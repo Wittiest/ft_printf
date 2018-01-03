@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include <stdio.h> // REMOVER
+
 static int	signed_arg(intmax_t arg, int neg)
 {
 	char	str[100];
@@ -46,7 +46,7 @@ static void	signed_minus(t_start *start, int p, int printed)
 		write(1, " ", 1);
 }
 
-static void signed_unminus(t_start *start, int p, int printed, int total_len)
+static void	signed_unminus(t_start *start, int p, int printed, int total_len)
 {
 	if (((start->flags.space || start->flags.plus) && !start->neg))
 		if (!(start->min_width && !start->flags.zero) || printed++)
@@ -60,7 +60,7 @@ static void signed_unminus(t_start *start, int p, int printed, int total_len)
 			write(1, ((start->flags.zero && !start->prec) ? "0" : " "), 1);
 	else
 		while (p++ < (total_len - start->prec))
-			write(1, ((start->flags.zero && !start->prec) ? "0" : " "), 1);		
+			write(1, ((start->flags.zero && !start->prec) ? "0" : " "), 1);
 	if ((!start->flags.zero && start->min_width) && (start->flags.space ||
 		start->flags.plus) && !start->neg)
 		p -= write(1, (start->flags.plus) ? "+" : " ", 1);
