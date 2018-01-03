@@ -58,7 +58,7 @@ static void	print_hex_2(t_start *start, int printed, int hex, int tot)
 			write(1, "0", 1);
 		if (start->c == 'X' && (!start->zero_prec || start->u_arg))
 			print_hex_upp(start->u_arg, start->flags.hash);
-		else if (!start->zero_prec || start->u_arg)
+		else if (!start->zero_prec || start->u_arg || start->c == 'p')
 			print_hex_low(start->u_arg, start->c == 'p', start->flags.hash);
 	}
 }
