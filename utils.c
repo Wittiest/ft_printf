@@ -34,16 +34,6 @@ void	fix_prefix(t_start *start)
 	}
 }
 
-size_t	unsigned_count(uintmax_t n, int base)
-{
-	size_t len;
-
-	len = 0;
-	while (++len && (n / base))
-		n /= base;
-	return (len);
-}
-
 int		signed_count(intmax_t n)
 {
 	int	len;

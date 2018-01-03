@@ -86,6 +86,6 @@ int			signed_handler(t_start *start)
 	if (start->neg && start->flags.zero)
 		write(1, "-", 1);
 	(start->flags.minus) ? signed_minus(start, p, printed) :
-	signed_unminus(start, p, printed, total_len); 
-	return(total_len);
+	signed_unminus(start, p, printed, total_len);
+	return (total_len);
 }

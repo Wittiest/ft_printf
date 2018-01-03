@@ -12,6 +12,16 @@
 
 #include "ft_printf.h"
 
+size_t		unsigned_count(uintmax_t n, int base)
+{
+	size_t len;
+
+	len = 0;
+	while (++len && (n / base))
+		n /= base;
+	return (len);
+}
+
 static int	unsigned_arg(uintmax_t u_arg)
 {
 	char	str[100];
@@ -33,7 +43,7 @@ static int	unsigned_arg(uintmax_t u_arg)
 	return (j);
 }
 
-int		unsigned_arg_handler(t_start *start)
+int			unsigned_arg_handler(t_start *start)
 {
 	int		un;
 	int		printed;
