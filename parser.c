@@ -28,7 +28,7 @@ static void	parse_flags(t_start *start, int *i)
 		else if (start->format[*i] == ' ')
 			start->flags.space = 1;
 		else
-			break;
+			break ;
 		(*i)++;
 	}
 }
@@ -36,7 +36,8 @@ static void	parse_flags(t_start *start, int *i)
 static void	parse_field_width(t_start *start, int *i)
 {
 	start->min_width = 0;
-	while (start->format[*i] && (start->format[*i] >= '0') && (start->format[*i] <= '9'))
+	while (start->format[*i] && (start->format[*i] >= '0') &&
+		(start->format[*i] <= '9'))
 	{
 		start->min_width *= 10;
 		start->min_width += (start->format[*i] - '0');
@@ -45,7 +46,8 @@ static void	parse_field_width(t_start *start, int *i)
 }
 
 /*
-**	start->zero_prec is used to store difference between no precision and 0 precision
+**	start->zero_prec is used to store difference between no precision and 0
+**	precision
 */
 
 static void	parse_prec(t_start *start, int *i)
@@ -54,9 +56,11 @@ static void	parse_prec(t_start *start, int *i)
 	if (start->format[*i] == '.')
 	{
 		(*i)++;
-		if (!((start->format[*i] >= '0') && (start->format[*i] <= '9')) || (start->format[*i] == '0'))
+		if (!((start->format[*i] >= '0') && (start->format[*i] <= '9')) ||
+			(start->format[*i] == '0'))
 			start->zero_prec = 1;
-		while (start->format[*i] && (start->format[*i] >= '0') && (start->format[*i] <= '9'))
+		while (start->format[*i] && (start->format[*i] >= '0') &&
+			(start->format[*i] <= '9'))
 		{
 			start->prec *= 10;
 			start->prec += start->format[*i] - '0';
@@ -86,7 +90,7 @@ static void	parse_length_mod(t_start *start, int *i)
 			start->l_mod = HH;
 		else
 			start->l_mod = H;
-	}		
+	}
 }
 
 void		parser(t_start *start)
@@ -94,15 +98,15 @@ void		parser(t_start *start)
 	int i;
 	int ix;
 
-	i = ix = 0;
+	i = 0;
+	ix = 0;
 	while (start->format[i])
 	{
 		start->l_mod = 0;
-		if (start->format[i] == '%')
+		if (start->format[i] == '%' || (i++ && 0))
 		{
-			printstr(ix, i, start);
-			i++;
-			parse_flags(start, &i);			
+			printstr(ix, i++, start);
+			parse_flags(start, &i);
 			parse_field_width(start, &i);
 			parse_prec(start, &i);
 			if (escape_check(start, &i) && (ix = i))
@@ -113,8 +117,6 @@ void		parser(t_start *start)
 			parse_conv_char(start);
 			ix = i;
 		}
-		else
-			i++;
 	}
 	printstr(ix, i, start);
 }
