@@ -53,6 +53,7 @@ typedef struct	s_start
 	intmax_t	arg;
 	uintmax_t	u_arg;
 	short		plus_done;
+	int			neg;
 }				t_start;
 
 int				ft_printf(char *format, ...);
