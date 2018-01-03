@@ -19,6 +19,7 @@
 #include <string.h>
 #include <stdint.h>
 #include <stdio.h> // remove
+#include <wchar.h>
 enum LENGTH_MODIFIERS
 {
 	H = 1,
@@ -51,6 +52,7 @@ typedef struct	s_start
 	short		l_mod;
 	intmax_t	arg;
 	uintmax_t	u_arg;
+	short		plus_done;
 }				t_start;
 
 int		ft_printf(char *format, ...);

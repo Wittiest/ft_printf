@@ -47,9 +47,9 @@ static void	parse_field_width(t_start *start, int *i)
 /*
 **	start->zero_prec is used to store difference between no precision and 0 precision
 */
+
 static void	parse_prec(t_start *start, int *i)
 {
-	// add handling for *
 	start->prec = 0;
 	if (start->format[*i] == '.')
 	{
@@ -97,6 +97,7 @@ void		parser(t_start *start)
 	i = ix = 0;
 	while (start->format[i])
 	{
+		start->l_mod = 0;
 		if (start->format[i] == '%')
 		{
 			printstr(ix, i, start);
@@ -108,6 +109,7 @@ void		parser(t_start *start)
 				continue ;
 			parse_length_mod(start, &i);
 			start->c = start->format[i++];
+			start->plus_done = 0;
 			parse_conv_char(start);
 			ix = i;
 		}

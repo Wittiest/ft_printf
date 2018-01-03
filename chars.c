@@ -122,9 +122,9 @@ int			ft_putstr_arg(t_start *start)
 
 int			ft_putchar_arg(t_start *start)
 {
-	char	c;
-	int		i;
-	int		j;
+	char		c;
+	int			i;
+	int			j;
 
 	j = i = start->min_width;
 	if (!(start->flags.minus))

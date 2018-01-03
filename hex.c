@@ -23,6 +23,7 @@ static int		print_hex_low(uintmax_t	u_arg, int p, int hash)
 	write(1, &low_hex[u_arg % 16], 1);
 	return (1 + i);
 }
+
 static int		print_hex_upp(uintmax_t	u_arg, int hash)
 {
 	char	upp_hex[17] = "0123456789ABCDEF";

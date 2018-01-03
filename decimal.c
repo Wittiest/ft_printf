@@ -72,7 +72,8 @@ int		signed_handler(t_start *start)
 			printed += write(1, (start->flags.plus) ? "+" : " ", 1);
 		while ((((start->prec || (start->zero_prec && !start->arg)) ? (printed++) : (p++)) < (total_len - start->prec)))
 			write(1, ((start->flags.zero && !start->prec) ? "0" : " "), 1);
-		if ((start->min_width && !start->flags.zero) && (start->flags.space || start->flags.plus) && !neg)
+		// add check for % 4.5i 42 == | 00042| to allow plus placement to not affect precision badly
+		if ((!start->flags.zero && start->min_width) && (start->flags.space || start->flags.plus) && !neg)
 			p -= write(1, (start->flags.plus) ? "+" : " ", 1);
 		while ((p++ - neg < start->prec))
 			write(1, "0", 1);
