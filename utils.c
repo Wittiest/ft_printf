@@ -17,7 +17,8 @@ size_t	unsigned_count(uintmax_t n, int base)
 	size_t len;
 
 	len = 0;
-	while (++len && (n /= base));
+	while (++len && (n / base))
+		n /= base;
 	return (len);
 }
 
@@ -26,7 +27,8 @@ int		signed_count(intmax_t n)
 	int	len;
 
 	len = 0;
-	while (++len && (n /= 10));
+	while (++len && (n / 10))
+		n /= 10;
 	return (len);
 }
 

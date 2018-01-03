@@ -13,10 +13,10 @@
 #include "ft_printf.h"
 
 int		(*g_funcs[])(t_start *) = {print_hex, print_hex, ft_putchar_arg,
-							ft_putchar_arg, ft_putstr_arg, ft_putstr_arg,
-							signed_handler, signed_handler, signed_handler,
-							unsigned_arg_handler, unsigned_arg_handler,
-							print_hex, print_octal, print_octal};
+	ft_putchar_arg, ft_putstr_arg, ft_putstr_arg,
+	signed_handler, signed_handler, signed_handler,
+	unsigned_arg_handler, unsigned_arg_handler,
+	print_hex, print_octal, print_octal};
 char	g_conversion[15] = "xXcCsSdiDuUpoO\0";
 
 /*
@@ -42,16 +42,16 @@ static void	read_arg(t_start *start, char c)
 			start->arg = va_arg(start->args, int);
 		return ;
 	}
-		if (start->l_mod == Z || c == 'S' || c == 's' || c == 'p')
-			start->u_arg = va_arg(start->args, size_t);			
-		else if (start->l_mod == L)
-			start->u_arg = va_arg(start->args, unsigned long);
-		else if (start->l_mod == LL)
-			start->u_arg = va_arg(start->args, unsigned long long);
-		else if (start->l_mod == J)
-			start->u_arg = va_arg(start->args, uintmax_t);
-		else
-			start->u_arg = va_arg(start->args, unsigned int);
+	if (start->l_mod == Z || c == 'S' || c == 's' || c == 'p')
+		start->u_arg = va_arg(start->args, size_t);
+	else if (start->l_mod == L)
+		start->u_arg = va_arg(start->args, unsigned long);
+	else if (start->l_mod == LL)
+		start->u_arg = va_arg(start->args, unsigned long long);
+	else if (start->l_mod == J)
+		start->u_arg = va_arg(start->args, uintmax_t);
+	else
+		start->u_arg = va_arg(start->args, unsigned int);
 }
 
 static void	demote_int(t_start *start)
@@ -68,11 +68,11 @@ static void	demote_int(t_start *start)
 		if (start->l_mod == H)
 			start->arg = (unsigned short)start->arg;
 		else if (start->l_mod == HH)
-			start->arg = (unsigned char)start->arg;		
+			start->arg = (unsigned char)start->arg;
 	}
 }
 
-void	parse_conv_char(t_start *start)
+void		parse_conv_char(t_start *start)
 {
 	int			i;
 
@@ -88,7 +88,7 @@ void	parse_conv_char(t_start *start)
 		if (g_conversion[i] == start->c)
 		{
 			start->ret += g_funcs[i](start);
-			break;
+			break ;
 		}
 		i++;
 	}

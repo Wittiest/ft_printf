@@ -12,10 +12,10 @@
 
 #include "ft_printf.h"
 
-static int		print_hex_low(uintmax_t	u_arg, int p, int hash)
+static int	print_hex_low(uintmax_t u_arg, int p, int hash)
 {
-	char	low_hex[17] = "0123456789abcdef";
-	int		i;
+	const char	low_hex[17] = "0123456789abcdef";
+	int			i;
 
 	i = (p || (hash && u_arg)) ? write(1, "0x", 2) : 0;
 	if (u_arg >= 16)
@@ -24,10 +24,10 @@ static int		print_hex_low(uintmax_t	u_arg, int p, int hash)
 	return (1 + i);
 }
 
-static int		print_hex_upp(uintmax_t	u_arg, int hash)
+static int	print_hex_upp(uintmax_t u_arg, int hash)
 {
-	char	upp_hex[17] = "0123456789ABCDEF";
-	int		i;
+	const char	upp_hex[17] = "0123456789ABCDEF";
+	int			i;
 
 	i = (hash && u_arg) ? write(1, "0X", 2) : 0;
 	if (u_arg >= 16)
@@ -63,7 +63,7 @@ static void	print_hex_2(t_start *start, int printed, int hex, int tot)
 	}
 }
 
-int		print_hex(t_start *start)
+int			print_hex(t_start *start)
 {
 	int		total_print_len;
 	int		hex;

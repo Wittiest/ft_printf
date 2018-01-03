@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-static int	print_oct(uintmax_t t, int hash)
+static int		print_oct(uintmax_t t, int hash)
 {
 	int		ret;
 	char	c;
@@ -25,14 +25,15 @@ static int	print_oct(uintmax_t t, int hash)
 	return (1 + ret);
 }
 
-static	void print_octal_2(t_start *start, int printed, int oct, int total_len)
+static	void	print_octal_2(t_start *start, int printed,
+								int oct, int total_len)
 {
 	if (start->flags.minus)
 	{
 		printed = oct;
 		while ((start->prec) ? (printed++ < (start->prec)) : 0)
 			write(1, "0", 1);
-		printed -= (start->prec) ? oct + 1: oct;
+		printed -= (start->prec) ? oct + 1 : oct;
 		printed += print_oct(start->u_arg, start->flags.hash);
 		while (printed++ < total_len)
 			write(1, " ", 1);
@@ -51,7 +52,7 @@ static	void print_octal_2(t_start *start, int printed, int oct, int total_len)
 	}
 }
 
-int		print_octal(t_start *start)
+int				print_octal(t_start *start)
 {
 	int		total_len;
 	int		oct;
