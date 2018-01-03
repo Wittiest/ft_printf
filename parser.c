@@ -43,6 +43,11 @@ static void	parse_field_width(t_start *start, int *i)
 		start->min_width += (start->format[*i] - '0');
 		(*i)++;
 	}
+	if (start->format[*i] == '*')
+	{
+		(*i)++;
+		start->min_width = va_arg(start->args, int);
+	}
 }
 
 /*
